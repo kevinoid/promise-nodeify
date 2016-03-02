@@ -58,14 +58,16 @@ a promise-library-agnostic way which only requires the ES6 promise
 functionality subset.  However, these existing implementations differ in
 subtle ways.  A brief comparison:
 
-Behavior | this module | [bluebird `#asCallback`](http://bluebirdjs.com/docs/api/ascallback.html) | [es-nodeify](https://github.com/robbertkl/es-nodeify) | [then `#nodeify`](https://github.com/then/promise#promisenodeifycallback) | [then `nodeify`](https://github.com/then/nodeify) | [Un-thenify](https://github.com/blakeembrey/unthenify)<sup>[1](#note-1)</sup> | [when.js `node.bindCallback`](https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback)
-With `function` arg returns | `undefined` | `this` `Promise`<sup>[2](#note-2)</sup> | `undefined` | `undefined` | `Promise<undefined>` | `undefined` | `undefined`
-callback exceptions | `uncaughtException` | `uncaughtException` | `unhandledRejection` | `uncaughtException` | `uncaughtException` | `unhandledRejection` | `uncaughtException`
-falsey cause | `Error` with `.cause` | `Error` with `.cause`<sup>[3](#note-3)</sup> | `Error` | falsey cause | falsey cause | `TypeError` | falsey cause
-reject callback argument length | 1 | 1 | 1 | 1 | 1 | 1 | 2
-resolve callback argument length | 2 | `undefined` 1, else 2<sup>[4](#note-4)</sup> | 2 | 2 | 2 | 2 | 2
-non-function argument | ignored | ignored | falsey ignored, truthy `unhandledRejection` | ignored | ignored | `unhandledRejection` | falsey ignored, truthy `uncaughtException`
-extra argument | ignored | options<sup>[5](#note-5)</sup> | ignored | `this` of callback | ignored | ignored | ignored
+Behavior                  | this module           | [bluebird `#asCallback`][bb-ascallback]      | [es-nodeify][es-nodeify]              | [nodeify][nodeify]                    | [then `#nodeify`][then-nodeify] | [Un-thenify][unthenify]<sup>[1](#note-1)</sup> | [when.js `.bindCallback`][when-bindcallback]
+--------------------------|-----------------------|----------------------------------------------|---------------------------------------|---------------------------------------|---------------------------------|------------------------------------------------|---------------------------------------------
+returns (with `function`) | `undefined`           | `this` `Promise`<sup>[2](#note-2)</sup>      | `undefined`                           | `Promise<undefined>`                  | `undefined`                     | `undefined`                                    | `undefined`
+returns (with falsey)     | `promise`             | `promise`                                    | `promise`                             | `Promise<undefined>`                  | `promise`                       | `promise`                                      | `promise`
+returns (non-function)    | `promise`             | `promise`                                    | `undefined` with `unhandledRejection` | `promise`                             | `promise`                       | `undefined` with `unhandledRejection`          | `undefined` with `uncaughtException`
+callback exception        | `uncaughtException`   | `uncaughtException`                          | `unhandledRejection`                  | `uncaughtException`                   | `uncaughtException`             | `unhandledRejection`                           | `uncaughtException`
+falsey cause              | `Error` with `.cause` | `Error` with `.cause`<sup>[3](#note-3)</sup> | `Error`                               | falsey cause                          | falsey cause                    | `TypeError`                                    | falsey cause
+reject argument length    | 1                     | 1                                            | 1                                     | 1                                     | 1                               | 1                                              | 2
+resolve argument length   | 2                     | `undefined` ? 1 : 2<sup>[4](#note-4)</sup>   | 2                                     | 2                                     | 2                               | 2                                              | 2
+extra argument            | ignored               | options<sup>[5](#note-5)</sup>               | ignored                               | ignored                               | `this` of callback              | ignored                                        | ignored
 
 Notes:
 
@@ -329,3 +331,10 @@ save a lot of time and effort.
 
 This package is available under the terms of the
 [MIT License](https://opensource.org/licenses/MIT).
+
+[bb-ascallback]: http://bluebirdjs.com/docs/api/ascallback.html
+[es-nodeify]: https://github.com/robbertkl/es-nodeify
+[nodeify]: https://github.com/then/nodeify
+[then-nodeify]: https://github.com/then/promise#promisenodeifycallback
+[unthenify]: https://github.com/blakeembrey/unthenify
+[when-bindcallback]: https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback
