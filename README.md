@@ -37,16 +37,19 @@ function takesCallback(callback) {
 
 The important features of `nodeify` as compared to naive implementations:
 
-* Any values returned or thrown by callback have no effect on the returned
-  promise (unlike returning result of passing callback to `.then`).
-* Exceptions thrown by callback cause `uncaughtException` as they would for
-  other callbacks (unlike passing callback to `.then`, which causes
-  `unhandledRejection` or swallows them).
 * Creates `Error` for falsey rejection causes.  Since Promises may resolve or
   reject without providing a value or cause, the callback would have no way to
   distinguish success from failure.  This module ensures the error argument is
   always truthy, substituting an `Error` when the rejection cause is falsey
   (and passing the original value as the `.cause` property, as bluebird does).
+* Exceptions thrown by callback cause `uncaughtException` as they would for
+  other callbacks (unlike passing callback to `.then`, which causes
+  `unhandledRejection` or swallows them).
+* Reduces confusion by only returning a Promise when no callback is given
+  (as opposed to returning the promise argument, which creates uncertainty
+  about `unhandledRejection`s and multiple threads of control - or returning
+  the result passing the callback to `.then`, which resolves to the callback
+  result).
 
 ## Behavior Comparison
 
