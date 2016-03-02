@@ -91,11 +91,24 @@ function promiseNodeify(promise, callback) {
  * This may be more performant than {@see promiseNodeify} and have additional
  * implementation-specific features, but the behavior may differ from
  * <code>promiseNodeify</code> and between Promise implementations.
+ *
+ * Note that this function only passes the callback argument to
+ * <code>.nodeify</code>, since additional arguments are interpreted
+ * differently by different libraries (e.g. bluebird treats the next argument
+ * as an options object while then treats it as <code>this</code> for the
+ * callback).
+ *
+ * @ template ValueType
+ * @param {!Promise<ValueType>} promise Promise to monitor.
+ * @param {?function(*, ValueType=)=} callback Node-style callback.
+ * @return {Promise<ValueType>|undefined} Value returned by
+ * <code>.nodeify</code>.  Known implementations return the
+ * <code>promise</code> argument when callback is falsey and either
+ * <code>promise</code> or <code>undefined</code> otherwise.
  */
-promiseNodeify.delegated = function nodeifyDelegated(promise, callback,
-    options) {
+promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
   if (typeof promise.nodeify === 'function') {
-    return promise.nodeify(callback, options);
+    return promise.nodeify(callback);
   }
 
   return promiseNodeify(promise, callback);
