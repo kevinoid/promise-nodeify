@@ -90,21 +90,21 @@ These benchmarks were done using the [benchmark/index.js](benchmark/index.js)
 script on an `Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz` with Node v4.3.1 on
 Linux and the following module versions:
 
-| Module                | Version |
-|-----------------------|---------|
-| `benchmark`           | 2.1.0   |
-| `bluebird`            | 3.3.3   |
-| `cli-table`           | 0.3.1   |
-| `es-nodeify`          | 1.0.0   |
-| `microtime`           | 2.0.0   |
-| `native-promise-only` | 0.8.1   |
-| `nodeify`             | 1.0.0   |
-| `pinkie-promise`      | 2.0.0   |
-| `promise`             | 7.1.1   |
-| `q`                   | 1.4.1   |
-| `rsvp`                | 3.2.1   |
-| `unthenify`           | 1.0.1   |
-| `when`                | 3.7.7   |
+| Module                                           | Version |
+|--------------------------------------------------|---------|
+| [`benchmark`][npm-benchmark]                     | 2.1.0   |
+| [`bluebird`][npm-bluebird]                       | 3.3.3   |
+| [`cli-table`][npm-cli-table]                     | 0.3.1   |
+| [`es-nodeify`][npm-es-nodeify]                   | 1.0.0   |
+| [`microtime`][npm-microtime]                     | 2.0.0   |
+| [`native-promise-only`][npm-native-promise-only] | 0.8.1   |
+| [`nodeify`][npm-nodeify]                         | 1.0.0   |
+| [`pinkie-promise`][npm-pinkie-promise]           | 2.0.0   |
+| [`promise`][npm-promise]                         | 7.1.1   |
+| [`q`][npm-q]                                     | 1.4.1   |
+| [`rsvp`][npm-rsvp]                               | 3.2.1   |
+| [`unthenify`][npm-unthenify]                     | 1.0.1   |
+| [`when`][npm-when]                               | 3.7.7   |
 
 ### Nodeify Resolved Promise
 
@@ -335,6 +335,19 @@ This package is available under the terms of the
 [bb-ascallback]: http://bluebirdjs.com/docs/api/ascallback.html
 [es-nodeify]: https://github.com/robbertkl/es-nodeify
 [nodeify]: https://github.com/then/nodeify
+[npm-benchmark]: https://www.npmjs.com/package/benchmark
+[npm-bluebird]: https://www.npmjs.com/package/bluebird
+[npm-cli-table]: https://www.npmjs.com/package/cli-table
+[npm-es-nodeify]: https://www.npmjs.com/package/es-nodeify
+[npm-microtime]: https://www.npmjs.com/package/microtime
+[npm-native-promise-only]: https://www.npmjs.com/package/native-promise-only
+[npm-nodeify]: https://www.npmjs.com/package/nodeify
+[npm-pinkie-promise]: https://www.npmjs.com/package/pinkie-promise
+[npm-promise]: https://www.npmjs.com/package/promise
+[npm-q]: https://www.npmjs.com/package/q
+[npm-rsvp]: https://www.npmjs.com/package/rsvp
+[npm-unthenify]: https://www.npmjs.com/package/unthenify
+[npm-when]: https://www.npmjs.com/package/when
 [then-nodeify]: https://github.com/then/promise#promisenodeifycallback
 [unthenify]: https://github.com/blakeembrey/unthenify
 [when-bindcallback]: https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback
