@@ -121,63 +121,64 @@ promise (larger is better):
 | unthenify         | 100,638.922   | 79,097.99   | 80,488.25   | 78,298.365  | 40,683.82  | 103,125.162   | 100,618.139   | 101,887.997   |
 | when.bindCallback | 823.326       | 856.669     | 842.975     | 834.864     | 748.669    | 847.556       | 850.316       | 839.995       |
 
-<a href="#resolved-output" onclick="var s=document.getElementById('resolved-output').style;s.display=s.display==='none'?'block':'none'">Toggle Benchmark Output</a>
-<pre id="resolved-output" style="display: none">bluebird#nodeify with bluebird x 1,922,722 ops/sec ±1.71% (80 runs sampled)
-bluebird#nodeify with npo: TypeError: this._then is not a function
-bluebird#nodeify with pinkie: TypeError: this._then is not a function
-bluebird#nodeify with q: TypeError: this._then is not a function
-bluebird#nodeify with rsvp: TypeError: this._then is not a function
-bluebird#nodeify with then: TypeError: this._then is not a function
-bluebird#nodeify with when: TypeError: this._then is not a function
-bluebird#nodeify with native: TypeError: this._then is not a function
-es-nodeify with bluebird x 1,345,703 ops/sec ±0.84% (81 runs sampled)
-es-nodeify with npo x 510,887 ops/sec ±1.32% (85 runs sampled)
-es-nodeify with pinkie x 534,014 ops/sec ±0.92% (84 runs sampled)
-es-nodeify with q x 68,916 ops/sec ±2.99% (70 runs sampled)
-es-nodeify with rsvp x 1,974,251 ops/sec ±0.84% (85 runs sampled)
-es-nodeify with then x 2,096,468 ops/sec ±0.77% (84 runs sampled)
-es-nodeify with when x 1,756,178 ops/sec ±3.48% (82 runs sampled)
-es-nodeify with native x 506,103 ops/sec ±1.36% (87 runs sampled)
-nodeify with bluebird x 147,481 ops/sec ±2.80% (71 runs sampled)
-nodeify with npo x 251,535 ops/sec ±2.60% (77 runs sampled)
-nodeify with pinkie x 253,881 ops/sec ±2.53% (67 runs sampled)
-nodeify with q x 58,504 ops/sec ±4.30% (67 runs sampled)
-nodeify with rsvp x 1,355,812 ops/sec ±2.98% (81 runs sampled)
-nodeify with then x 1,102,468 ops/sec ±2.09% (81 runs sampled)
-nodeify with when x 1,160,227 ops/sec ±3.95% (79 runs sampled)
-nodeify with native x 251,414 ops/sec ±3.02% (77 runs sampled)
-promiseNodeify with bluebird x 1,586,092 ops/sec ±1.94% (81 runs sampled)
-promiseNodeify with npo x 452,529 ops/sec ±0.52% (84 runs sampled)
-promiseNodeify with pinkie x 455,657 ops/sec ±0.50% (85 runs sampled)
-promiseNodeify with q x 66,045 ops/sec ±4.14% (71 runs sampled)
-promiseNodeify with rsvp x 2,108,607 ops/sec ±3.66% (81 runs sampled)
-promiseNodeify with then x 2,370,824 ops/sec ±1.08% (82 runs sampled)
-promiseNodeify with when x 1,942,723 ops/sec ±0.79% (86 runs sampled)
-promiseNodeify with native x 481,843 ops/sec ±0.41% (87 runs sampled)
-then#nodeify with bluebird x 136,717 ops/sec ±1.83% (82 runs sampled)
-then#nodeify with npo x 225,297 ops/sec ±2.92% (81 runs sampled)
-then#nodeify with pinkie x 231,042 ops/sec ±2.14% (80 runs sampled)
-then#nodeify with q x 56,385 ops/sec ±3.88% (75 runs sampled)
-then#nodeify with rsvp x 764,720 ops/sec ±3.37% (81 runs sampled)
-then#nodeify with then x 1,320,159 ops/sec ±2.67% (81 runs sampled)
-then#nodeify with when x 739,062 ops/sec ±0.78% (85 runs sampled)
-then#nodeify with native x 202,670 ops/sec ±6.14% (74 runs sampled)
-unthenify with bluebird x 100,639 ops/sec ±2.24% (84 runs sampled)
-unthenify with npo x 80,488 ops/sec ±2.78% (84 runs sampled)
-unthenify with pinkie x 78,298 ops/sec ±3.08% (81 runs sampled)
-unthenify with q x 40,684 ops/sec ±3.94% (73 runs sampled)
-unthenify with rsvp x 103,125 ops/sec ±0.78% (84 runs sampled)
-unthenify with then x 100,618 ops/sec ±3.56% (83 runs sampled)
-unthenify with when x 101,888 ops/sec ±0.46% (82 runs sampled)
-unthenify with native x 79,098 ops/sec ±3.09% (83 runs sampled)
-when.bindCallback with bluebird x 823 ops/sec ±1.21% (76 runs sampled)
-when.bindCallback with npo x 843 ops/sec ±0.96% (75 runs sampled)
-when.bindCallback with pinkie x 835 ops/sec ±0.97% (75 runs sampled)
-when.bindCallback with q x 749 ops/sec ±1.55% (73 runs sampled)
-when.bindCallback with rsvp x 848 ops/sec ±0.94% (77 runs sampled)
-when.bindCallback with then x 850 ops/sec ±0.86% (76 runs sampled)
-when.bindCallback with when x 840 ops/sec ±0.86% (76 runs sampled)
-when.bindCallback with native x 857 ops/sec ±1.41% (38 runs sampled)</pre>
+<!-- GitHub sanitizes my attempts to make this toggleable.  Hide for now.
+    bluebird#nodeify with bluebird x 1,922,722 ops/sec ±1.71% (80 runs sampled)
+    bluebird#nodeify with npo: TypeError: this._then is not a function
+    bluebird#nodeify with pinkie: TypeError: this._then is not a function
+    bluebird#nodeify with q: TypeError: this._then is not a function
+    bluebird#nodeify with rsvp: TypeError: this._then is not a function
+    bluebird#nodeify with then: TypeError: this._then is not a function
+    bluebird#nodeify with when: TypeError: this._then is not a function
+    bluebird#nodeify with native: TypeError: this._then is not a function
+    es-nodeify with bluebird x 1,345,703 ops/sec ±0.84% (81 runs sampled)
+    es-nodeify with npo x 510,887 ops/sec ±1.32% (85 runs sampled)
+    es-nodeify with pinkie x 534,014 ops/sec ±0.92% (84 runs sampled)
+    es-nodeify with q x 68,916 ops/sec ±2.99% (70 runs sampled)
+    es-nodeify with rsvp x 1,974,251 ops/sec ±0.84% (85 runs sampled)
+    es-nodeify with then x 2,096,468 ops/sec ±0.77% (84 runs sampled)
+    es-nodeify with when x 1,756,178 ops/sec ±3.48% (82 runs sampled)
+    es-nodeify with native x 506,103 ops/sec ±1.36% (87 runs sampled)
+    nodeify with bluebird x 147,481 ops/sec ±2.80% (71 runs sampled)
+    nodeify with npo x 251,535 ops/sec ±2.60% (77 runs sampled)
+    nodeify with pinkie x 253,881 ops/sec ±2.53% (67 runs sampled)
+    nodeify with q x 58,504 ops/sec ±4.30% (67 runs sampled)
+    nodeify with rsvp x 1,355,812 ops/sec ±2.98% (81 runs sampled)
+    nodeify with then x 1,102,468 ops/sec ±2.09% (81 runs sampled)
+    nodeify with when x 1,160,227 ops/sec ±3.95% (79 runs sampled)
+    nodeify with native x 251,414 ops/sec ±3.02% (77 runs sampled)
+    promiseNodeify with bluebird x 1,586,092 ops/sec ±1.94% (81 runs sampled)
+    promiseNodeify with npo x 452,529 ops/sec ±0.52% (84 runs sampled)
+    promiseNodeify with pinkie x 455,657 ops/sec ±0.50% (85 runs sampled)
+    promiseNodeify with q x 66,045 ops/sec ±4.14% (71 runs sampled)
+    promiseNodeify with rsvp x 2,108,607 ops/sec ±3.66% (81 runs sampled)
+    promiseNodeify with then x 2,370,824 ops/sec ±1.08% (82 runs sampled)
+    promiseNodeify with when x 1,942,723 ops/sec ±0.79% (86 runs sampled)
+    promiseNodeify with native x 481,843 ops/sec ±0.41% (87 runs sampled)
+    then#nodeify with bluebird x 136,717 ops/sec ±1.83% (82 runs sampled)
+    then#nodeify with npo x 225,297 ops/sec ±2.92% (81 runs sampled)
+    then#nodeify with pinkie x 231,042 ops/sec ±2.14% (80 runs sampled)
+    then#nodeify with q x 56,385 ops/sec ±3.88% (75 runs sampled)
+    then#nodeify with rsvp x 764,720 ops/sec ±3.37% (81 runs sampled)
+    then#nodeify with then x 1,320,159 ops/sec ±2.67% (81 runs sampled)
+    then#nodeify with when x 739,062 ops/sec ±0.78% (85 runs sampled)
+    then#nodeify with native x 202,670 ops/sec ±6.14% (74 runs sampled)
+    unthenify with bluebird x 100,639 ops/sec ±2.24% (84 runs sampled)
+    unthenify with npo x 80,488 ops/sec ±2.78% (84 runs sampled)
+    unthenify with pinkie x 78,298 ops/sec ±3.08% (81 runs sampled)
+    unthenify with q x 40,684 ops/sec ±3.94% (73 runs sampled)
+    unthenify with rsvp x 103,125 ops/sec ±0.78% (84 runs sampled)
+    unthenify with then x 100,618 ops/sec ±3.56% (83 runs sampled)
+    unthenify with when x 101,888 ops/sec ±0.46% (82 runs sampled)
+    unthenify with native x 79,098 ops/sec ±3.09% (83 runs sampled)
+    when.bindCallback with bluebird x 823 ops/sec ±1.21% (76 runs sampled)
+    when.bindCallback with npo x 843 ops/sec ±0.96% (75 runs sampled)
+    when.bindCallback with pinkie x 835 ops/sec ±0.97% (75 runs sampled)
+    when.bindCallback with q x 749 ops/sec ±1.55% (73 runs sampled)
+    when.bindCallback with rsvp x 848 ops/sec ±0.94% (77 runs sampled)
+    when.bindCallback with then x 850 ops/sec ±0.86% (76 runs sampled)
+    when.bindCallback with when x 840 ops/sec ±0.86% (76 runs sampled)
+    when.bindCallback with native x 857 ops/sec ±1.41% (38 runs sampled)
+-->
 
 ### Nodeify Rejected Promise
 
@@ -195,63 +196,64 @@ promise (larger is better):
 | unthenify         | 96,359.916    | 82,291.679  | 82,507.055  | 83,324.584  | 38,842.741 | 96,432.332    | 97,113.05     | 99,892.099    |
 | when.bindCallback | 822.083       | 837.698     | 848.358     | 851.348     | 789.546    | 854.184       | 844.102       | 851.644       |
 
-<a href="#rejected-output" onclick="var s=document.getElementById('rejected-output').style;s.display=s.display==='none'?'block':'none'">Toggle Benchmark Output</a>
-<pre id="rejected-output" style="display: none">bluebird#nodeify with bluebird x 1,889,496 ops/sec ±1.37% (83 runs sampled)
-bluebird#nodeify with npo: TypeError: this._then is not a function
-bluebird#nodeify with pinkie: TypeError: this._then is not a function
-bluebird#nodeify with q: TypeError: this._then is not a function
-bluebird#nodeify with rsvp: TypeError: this._then is not a function
-bluebird#nodeify with then: TypeError: this._then is not a function
-bluebird#nodeify with when: TypeError: this._then is not a function
-bluebird#nodeify with native: TypeError: this._then is not a function
-es-nodeify with bluebird x 1,247,981 ops/sec ±1.41% (78 runs sampled)
-es-nodeify with npo x 455,338 ops/sec ±3.80% (85 runs sampled)
-es-nodeify with pinkie x 466,965 ops/sec ±2.77% (81 runs sampled)
-es-nodeify with q x 64,703 ops/sec ±3.54% (73 runs sampled)
-es-nodeify with rsvp x 2,182,281 ops/sec ±2.07% (83 runs sampled)
-es-nodeify with then x 2,062,330 ops/sec ±0.67% (83 runs sampled)
-es-nodeify with when x 1,889,185 ops/sec ±0.62% (85 runs sampled)
-es-nodeify with native x 520,350 ops/sec ±0.39% (86 runs sampled)
-nodeify with bluebird x 147,455 ops/sec ±2.51% (74 runs sampled)
-nodeify with npo x 326,959 ops/sec ±2.44% (81 runs sampled)
-nodeify with pinkie x 325,972 ops/sec ±2.19% (82 runs sampled)
-nodeify with q x 53,878 ops/sec ±4.86% (66 runs sampled)
-nodeify with rsvp x 1,232,726 ops/sec ±4.10% (81 runs sampled)
-nodeify with then x 952,338 ops/sec ±0.98% (83 runs sampled)
-nodeify with when x 926,627 ops/sec ±5.41% (69 runs sampled)
-nodeify with native x 325,956 ops/sec ±3.21% (77 runs sampled)
-promiseNodeify with bluebird x 1,170,757 ops/sec ±2.39% (84 runs sampled)
-promiseNodeify with npo x 478,344 ops/sec ±1.87% (84 runs sampled)
-promiseNodeify with pinkie x 489,024 ops/sec ±0.47% (86 runs sampled)
-promiseNodeify with q x 62,906 ops/sec ±4.73% (69 runs sampled)
-promiseNodeify with rsvp x 2,097,277 ops/sec ±2.18% (84 runs sampled)
-promiseNodeify with then x 1,928,683 ops/sec ±0.99% (85 runs sampled)
-promiseNodeify with when x 1,497,451 ops/sec ±0.47% (83 runs sampled)
-promiseNodeify with native x 465,186 ops/sec ±3.41% (85 runs sampled)
-then#nodeify with bluebird x 131,589 ops/sec ±2.36% (81 runs sampled)
-then#nodeify with npo x 246,557 ops/sec ±1.59% (88 runs sampled)
-then#nodeify with pinkie x 245,428 ops/sec ±2.68% (82 runs sampled)
-then#nodeify with q x 49,655 ops/sec ±4.59% (70 runs sampled)
-then#nodeify with rsvp x 684,233 ops/sec ±0.56% (86 runs sampled)
-then#nodeify with then x 1,178,176 ops/sec ±0.77% (83 runs sampled)
-then#nodeify with when x 634,041 ops/sec ±2.52% (83 runs sampled)
-then#nodeify with native x 241,627 ops/sec ±2.28% (86 runs sampled)
-unthenify with bluebird x 96,360 ops/sec ±0.54% (85 runs sampled)
-unthenify with npo x 82,507 ops/sec ±1.38% (85 runs sampled)
-unthenify with pinkie x 83,325 ops/sec ±0.33% (85 runs sampled)
-unthenify with q x 38,843 ops/sec ±3.26% (75 runs sampled)
-unthenify with rsvp x 96,432 ops/sec ±4.63% (80 runs sampled)
-unthenify with then x 97,113 ops/sec ±2.47% (83 runs sampled)
-unthenify with when x 99,892 ops/sec ±0.48% (85 runs sampled)
-unthenify with native x 82,292 ops/sec ±0.39% (85 runs sampled)
-when with bluebird x 822 ops/sec ±1.11% (78 runs sampled)
-when with npo x 848 ops/sec ±0.90% (77 runs sampled)
-when with pinkie x 851 ops/sec ±0.99% (74 runs sampled)
-when with q x 790 ops/sec ±1.72% (73 runs sampled)
-when with rsvp x 854 ops/sec ±0.98% (75 runs sampled)
-when with then x 844 ops/sec ±0.94% (74 runs sampled)
-when with when x 852 ops/sec ±0.93% (75 runs sampled)
-when with native x 838 ops/sec ±0.94% (76 runs sampled)</pre>
+<!-- GitHub sanitizes my attempts to make this toggleable.  Hide for now.
+    bluebird#nodeify with bluebird x 1,889,496 ops/sec ±1.37% (83 runs sampled)
+    bluebird#nodeify with npo: TypeError: this._then is not a function
+    bluebird#nodeify with pinkie: TypeError: this._then is not a function
+    bluebird#nodeify with q: TypeError: this._then is not a function
+    bluebird#nodeify with rsvp: TypeError: this._then is not a function
+    bluebird#nodeify with then: TypeError: this._then is not a function
+    bluebird#nodeify with when: TypeError: this._then is not a function
+    bluebird#nodeify with native: TypeError: this._then is not a function
+    es-nodeify with bluebird x 1,247,981 ops/sec ±1.41% (78 runs sampled)
+    es-nodeify with npo x 455,338 ops/sec ±3.80% (85 runs sampled)
+    es-nodeify with pinkie x 466,965 ops/sec ±2.77% (81 runs sampled)
+    es-nodeify with q x 64,703 ops/sec ±3.54% (73 runs sampled)
+    es-nodeify with rsvp x 2,182,281 ops/sec ±2.07% (83 runs sampled)
+    es-nodeify with then x 2,062,330 ops/sec ±0.67% (83 runs sampled)
+    es-nodeify with when x 1,889,185 ops/sec ±0.62% (85 runs sampled)
+    es-nodeify with native x 520,350 ops/sec ±0.39% (86 runs sampled)
+    nodeify with bluebird x 147,455 ops/sec ±2.51% (74 runs sampled)
+    nodeify with npo x 326,959 ops/sec ±2.44% (81 runs sampled)
+    nodeify with pinkie x 325,972 ops/sec ±2.19% (82 runs sampled)
+    nodeify with q x 53,878 ops/sec ±4.86% (66 runs sampled)
+    nodeify with rsvp x 1,232,726 ops/sec ±4.10% (81 runs sampled)
+    nodeify with then x 952,338 ops/sec ±0.98% (83 runs sampled)
+    nodeify with when x 926,627 ops/sec ±5.41% (69 runs sampled)
+    nodeify with native x 325,956 ops/sec ±3.21% (77 runs sampled)
+    promiseNodeify with bluebird x 1,170,757 ops/sec ±2.39% (84 runs sampled)
+    promiseNodeify with npo x 478,344 ops/sec ±1.87% (84 runs sampled)
+    promiseNodeify with pinkie x 489,024 ops/sec ±0.47% (86 runs sampled)
+    promiseNodeify with q x 62,906 ops/sec ±4.73% (69 runs sampled)
+    promiseNodeify with rsvp x 2,097,277 ops/sec ±2.18% (84 runs sampled)
+    promiseNodeify with then x 1,928,683 ops/sec ±0.99% (85 runs sampled)
+    promiseNodeify with when x 1,497,451 ops/sec ±0.47% (83 runs sampled)
+    promiseNodeify with native x 465,186 ops/sec ±3.41% (85 runs sampled)
+    then#nodeify with bluebird x 131,589 ops/sec ±2.36% (81 runs sampled)
+    then#nodeify with npo x 246,557 ops/sec ±1.59% (88 runs sampled)
+    then#nodeify with pinkie x 245,428 ops/sec ±2.68% (82 runs sampled)
+    then#nodeify with q x 49,655 ops/sec ±4.59% (70 runs sampled)
+    then#nodeify with rsvp x 684,233 ops/sec ±0.56% (86 runs sampled)
+    then#nodeify with then x 1,178,176 ops/sec ±0.77% (83 runs sampled)
+    then#nodeify with when x 634,041 ops/sec ±2.52% (83 runs sampled)
+    then#nodeify with native x 241,627 ops/sec ±2.28% (86 runs sampled)
+    unthenify with bluebird x 96,360 ops/sec ±0.54% (85 runs sampled)
+    unthenify with npo x 82,507 ops/sec ±1.38% (85 runs sampled)
+    unthenify with pinkie x 83,325 ops/sec ±0.33% (85 runs sampled)
+    unthenify with q x 38,843 ops/sec ±3.26% (75 runs sampled)
+    unthenify with rsvp x 96,432 ops/sec ±4.63% (80 runs sampled)
+    unthenify with then x 97,113 ops/sec ±2.47% (83 runs sampled)
+    unthenify with when x 99,892 ops/sec ±0.48% (85 runs sampled)
+    unthenify with native x 82,292 ops/sec ±0.39% (85 runs sampled)
+    when with bluebird x 822 ops/sec ±1.11% (78 runs sampled)
+    when with npo x 848 ops/sec ±0.90% (77 runs sampled)
+    when with pinkie x 851 ops/sec ±0.99% (74 runs sampled)
+    when with q x 790 ops/sec ±1.72% (73 runs sampled)
+    when with rsvp x 854 ops/sec ±0.98% (75 runs sampled)
+    when with then x 844 ops/sec ±0.94% (74 runs sampled)
+    when with when x 852 ops/sec ±0.93% (75 runs sampled)
+    when with native x 838 ops/sec ±0.94% (76 runs sampled)
+-->
 
 ## Installation
 
