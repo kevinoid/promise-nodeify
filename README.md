@@ -22,12 +22,11 @@ function returnsPromise() {
   });
 }
 
-// Function which takes a node-style callback and relies on returnsPromise
+// Function which takes an optional node-style callback
 function takesCallback(callback) {
   var promise = returnsPromise();
   // if callback is not a function, promise is returned as-is
   // otherwise callback will be called when promise is resolved or rejected
-  // callback has no effect on the returned Promise
   // promise will not cause unhandledRejection if callback is a function
   return promiseNodeify(promise, callback);
 }
