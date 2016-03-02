@@ -56,7 +56,7 @@ function doCallback(callback, reason, value) {
  * @return {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
- * but is not guaranteed to be so).
+ * but is not guaranteed to remain so).
  */
 function promiseNodeify(promise, callback) {
   if (typeof callback !== 'function') {
@@ -125,7 +125,7 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
  * @return {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
- * but is not guaranteed to be so).
+ * but is not guaranteed to remain so).
  */
 promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
   return promiseNodeify(this, callback);
