@@ -44,6 +44,8 @@ The important features of `nodeify` as compared to naive implementations:
 * Exceptions thrown by callback cause `uncaughtException` as they would for
   other callbacks (unlike passing callback to `.then`, which causes
   `unhandledRejection` or swallows them).
+* The callback handles the promise rejection, preventing `unhandledRejection`
+  (unlike if the promise were ignored and callback invoked directly).
 * Reduces confusion by only returning a Promise when no callback is given
   (as opposed to returning the promise argument, which creates uncertainty
   about `unhandledRejection`s and multiple threads of control - or returning
