@@ -43,6 +43,7 @@
     "promise-finally": "^2.1.0"
   },
   "devDependencies": {
+    "bluebird": ">=1.0.0",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.6",
     "eslint": "^2.2.0",
