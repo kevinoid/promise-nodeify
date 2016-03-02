@@ -1,4 +1,4 @@
-/**
+/** @module promise-nodeify
  * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
@@ -57,6 +57,7 @@ function doCallback(callback, reason, value) {
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
  * but is not guaranteed to remain so).
+ * @alias module:promise-nodeify
  */
 function promiseNodeify(promise, callback) {
   if (typeof callback !== 'function') {
