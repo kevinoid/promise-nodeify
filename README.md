@@ -55,31 +55,29 @@ a promise-library-agnostic way which only requires the ES6 promise
 functionality subset.  However, these existing implementations differ in
 subtle ways.  A brief comparison:
 
-Behavior | this module | [bluebird `.asCallback`](http://bluebirdjs.com/docs/api/ascallback.html) | [es-nodeify](https://github.com/robbertkl/es-nodeify) | [then `nodeify`](https://github.com/then/nodeify) | [Un-thenify](https://github.com/blakeembrey/unthenify)<sup>[2](#note-2)</sup> | [when.js `node.bindCallback`](https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback)
-Returns | `undefined` | `this` `Promise`<sup>[3](#note-3)</sup> | `undefined` | `Promise<undefined>` | `undefined` | `undefined`
-callback exceptions | `uncaughtException` | `uncaughtException` | `unhandledRejection` | `uncaughtException` | `unhandledRejection` | `uncaughtException`
-falsey cause | `Error` with `.cause` | `Error` with `.cause`<sup>[4](#note-4)</sup> | `Error` | falsey cause | `TypeError` | falsey cause
-reject callback argument length | 1 | 1 | 1 | 1 | 1 | 2
-resolve callback argument length | 2 | `undefined` 1, else 2<sup>[5](#note-5)</sup> | 2 | 2 | 2 | 2
-non-function argument | ignored | ignored | falsey ignored, truthy `unhandledRejection` | ignored | `unhandledRejection` | falsey ignored, truthy `uncaughtException`
+Behavior | this module | [bluebird `#asCallback`](http://bluebirdjs.com/docs/api/ascallback.html) | [es-nodeify](https://github.com/robbertkl/es-nodeify) | [then `#nodeify`](https://github.com/then/promise#promisenodeifycallback) | [then `nodeify`](https://github.com/then/nodeify) | [Un-thenify](https://github.com/blakeembrey/unthenify)<sup>[1](#note-1)</sup> | [when.js `node.bindCallback`](https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback)
+With `function` arg returns | `undefined` | `this` `Promise`<sup>[2](#note-2)</sup> | `undefined` | `undefined` | `Promise<undefined>` | `undefined` | `undefined`
+callback exceptions | `uncaughtException` | `uncaughtException` | `unhandledRejection` | `uncaughtException` | `uncaughtException` | `unhandledRejection` | `uncaughtException`
+falsey cause | `Error` with `.cause` | `Error` with `.cause`<sup>[3](#note-3)</sup> | `Error` | falsey cause | falsey cause | `TypeError` | falsey cause
+reject callback argument length | 1 | 1 | 1 | 1 | 1 | 1 | 2
+resolve callback argument length | 2 | `undefined` 1, else 2<sup>[4](#note-4)</sup> | 2 | 2 | 2 | 2 | 2
+non-function argument | ignored | ignored | falsey ignored, truthy `unhandledRejection` | ignored | ignored | `unhandledRejection` | falsey ignored, truthy `uncaughtException`
+extra argument | ignored | options<sup>[5](#note-5)</sup> | ignored | `this` of callback | ignored | ignored | ignored
 
 Notes:
 
-1. <a id="note-1" name="note-1" />
-   [bluebird-nodeify](https://github.com/CrabDude/bluebird-nodeify) was
-   not listed in the comparison table since it behaves like bluebird (except
-   with different performance characteristics and requires `let` support in
-   the JavaScript engine).
-2. <a id="note-2" name="note-2" /> Un-thenify serves a similar purpose, but
+1. <a id="note-1" name="note-2" /> Un-thenify serves a similar purpose, but
    wraps the Promise-returning function rather than taking the Promise as an
    argument.
-3. <a id="note-3" name="note-3" /> Temporarily reverted in
+2. <a id="note-2" name="note-3" /> Temporarily reverted in
    https://github.com/petkaantonov/bluebird/issues/151 and restored in
    https://github.com/petkaantonov/bluebird/issues/168
-3. <a id="note-4" name="note-4" /> In response to
+3. <a id="note-3" name="note-4" /> In response to
    https://github.com/petkaantonov/bluebird/issues/434
-4. <a id="note-5" name="note-5" /> In response to
+4. <a id="note-4" name="note-5" /> In response to
    https://github.com/petkaantonov/bluebird/issues/170
+5. <a id="note-5" name="note-6" /> Supports the `spread` boolean option to
+   pass `Array` values as separate arguments to `callback`.
 
 ## Performance Comparison
 
