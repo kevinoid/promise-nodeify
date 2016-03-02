@@ -1,0 +1,8 @@
+/benchmark/
+/coverage/
+/doc-src/
+/doc/
+/scripts/
+/test-lib/
+/test/
+jsdoc*.conf.json

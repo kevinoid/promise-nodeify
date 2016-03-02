@@ -16,9 +16,6 @@
     "url": "https://github.com/kevinoid/promise-nodeify.git"
   },
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
   "//": "All scripts should run in POSIX sh and Windows cmd.exe",
   "scripts": {
     "benchmark": "cd benchmark && npm install && node index.js",
