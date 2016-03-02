@@ -118,6 +118,14 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
 
 /** Polyfill for <code>Promise.prototype.nodeify</code> which behaves like
  * {@link promiseNodeify}.
+ *
+ * @ template ValueType
+ * @this {!Promise<ValueType>}
+ * @param {?function(*, ValueType=)=} callback Node-style callback.
+ * @return {Promise<ValueType>|undefined} <code>undefined</code> if
+ * <code>callback</code> is a function, otherwise a <code>Promise</code>
+ * which behaves like <code>promise</code> (currently is <code>promise</code>,
+ * but is not guaranteed to be so).
  */
 promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
   return promiseNodeify(this, callback);
