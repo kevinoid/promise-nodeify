@@ -8,6 +8,7 @@
   },
   "source": {
     "exclude": [
+      "benchmark/node_modules",
       "coverage",
       "doc",
       "node_modules"

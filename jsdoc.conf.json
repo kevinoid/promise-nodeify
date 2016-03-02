@@ -9,6 +9,7 @@
       "README.md"
     ],
     "exclude": [
+      "benchmark",
       "coverage",
       "doc",
       "node_modules",
