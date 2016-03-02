@@ -1,7 +1,7 @@
 {
   "name": "promise-nodeify",
   "version": "0.1.0",
-  "description": "Call a Node-style callback with the resolution value or rejection cause of a Promise without the common gotchas.",
+  "description": "Call a Node-style callback with the resolution value or rejection cause of a Promise without the common pitfalls.",
   "keywords": [
     "callback",
     "nodeify",

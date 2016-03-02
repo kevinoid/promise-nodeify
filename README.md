@@ -8,7 +8,7 @@ promise-nodeify
 [![Version on NPM](https://img.shields.io/npm/v/promise-nodeify.svg?style=flat)](https://www.npmjs.com/package/promise-nodeify)
 
 Call a Node-style callback with the resolution value or rejection cause of a
-Promise without the common gotchas.
+Promise without the common pitfalls.
 
 ## Introductory Example
 
