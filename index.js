@@ -132,4 +132,7 @@ promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
   return promiseNodeify(this, callback);
 };
 
-module.exports = promiseNodeify;
+// Note: This file is used directly for Node and wrapped in UMD for browser
+if (typeof exports === 'object') {
+  module.exports = promiseNodeify;
+}
