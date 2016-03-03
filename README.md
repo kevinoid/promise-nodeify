@@ -258,11 +258,32 @@ promise (larger is better):
 
 ## Installation
 
+### NPM
+
 [This package](https://www.npmjs.com/package/promise-nodeify) can be installed
 using [npm](https://www.npmjs.com/) by running:
 
 ```sh
 npm install promise-nodeify
+```
+
+### Browser
+
+This package can be installed using [bower](http://bower.io/) by running:
+
+```sh
+bower install promise-nodeify
+```
+
+### Without Package Manager
+
+This module is also available with a [UMD](https://github.com/umdjs/umd)
+loader, both minified and un-minified, in the [`dist` directory](dist).  They
+can be downloaded, self-hosted, or loaded from a CDN.  To use the [RawGit
+CDN](https://rawgit.com/), use the following (X)HTML:
+
+```html
+<script src="https://cdn.rawgit.com/kevinoid/promise-nodeify/v0.1.0/dist/promise-nodeify.min.js"></script>
 ```
 
 ## Recipes
@@ -324,6 +345,9 @@ Documentation](https://kevinoid.github.io/promise-nodeify/api).
 
 Contributions are welcome and very much appreciated!  Please add tests to
 cover any changes and ensure `npm test` passes.
+
+The `dist` files are only updated for releases, so please don't include them
+in pull requests.
 
 If the desired change is large, complex, backwards-incompatible, can have
 significantly differing implementations, or may not be in scope for this
