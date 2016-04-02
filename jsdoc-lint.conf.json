@@ -10,6 +10,7 @@
     "exclude": [
       "benchmark/node_modules",
       "coverage",
+      "dist",
       "doc",
       "node_modules"
     ]

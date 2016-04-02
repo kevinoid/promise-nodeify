@@ -10,6 +10,7 @@ var awaitGlobalException = require('../test-lib/await-global-exception');
 var promiseFinally = require('promise-finally').default;
 var promiseNodeify = require('..');
 
+// eslint-disable-next-line no-undef
 var PPromise = typeof Promise !== 'undefined' ? Promise : BBPromise;
 
 describe('promiseNodeify', function() {
@@ -105,7 +106,7 @@ describe('promiseNodeify', function() {
         }),
         function() {
           process.removeListener('unhandledRejection', onUnhandledRejection);
-          return unhandledRejection && Promise.reject(unhandledRejection);
+          return unhandledRejection && PPromise.reject(unhandledRejection);
         }
       );
     });

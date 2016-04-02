@@ -5,6 +5,9 @@
  */
 'use strict';
 
+// Importing es-nodeify requires assigning to the Promise global
+/* global Promise:true */
+
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required
 // native-promise-only will overwrite if falsey when required
