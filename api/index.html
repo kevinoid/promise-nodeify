@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>promise-nodeify</h1><p><a href="https://travis-ci.org/kevinoid/promise-nodeify"><img src="https://img.shields.io/travis/kevinoid/promise-nodeify.svg?style=flat" alt="Build status"></a>
+<a href="https://codecov.io/github/kevinoid/promise-nodeify?branch=master"><img src="https://img.shields.io/codecov/c/github/kevinoid/promise-nodeify.svg?style=flat" alt="Coverage"></a>
+<a href="https://david-dm.org/kevinoid/promise-nodeify"><img src="https://img.shields.io/david/kevinoid/promise-nodeify.svg?style=flat" alt="Dependency Status"></a>
+<a href="https://www.npmjs.com/package/promise-nodeify"><img src="https://img.shields.io/node/v/promise-nodeify.svg?style=flat" alt="Supported Node Version"></a>
+<a href="https://www.npmjs.com/package/promise-nodeify"><img src="https://img.shields.io/npm/v/promise-nodeify.svg?style=flat" alt="Version on NPM"></a></p>
+<p>Call a Node-style callback with the resolution value or rejection cause of a
+Promise without the common pitfalls.</p>
+<h2>Introductory Example</h2><pre class="prettyprint source lang-js"><code>var promiseNodeify = require('promise-nodeify');
+
+// Function which returns a Promise
+function returnsPromise() {
+  return new Promise(function(resolve, reject) {
+    resolve(42);
+  });
+}
+
+// Function which takes an optional node-style callback
+function takesCallback(callback) {
+  var promise = returnsPromise();
+  // if callback is not a function, promise is returned as-is
+  // otherwise callback will be called when promise is resolved or rejected
+  // promise will not cause unhandledRejection if callback is a function
+  return promiseNodeify(promise, callback);
+}</code></pre><h2>Features</h2><p>The important features of <code>nodeify</code> as compared to naive implementations:</p>
+<ul>
+<li>Creates <code>Error</code> for falsey rejection causes.  Since Promises may resolve or
+reject without providing a value or cause, the callback would have no way to
+distinguish success from failure.  This module ensures the error argument is
+always truthy, substituting an <code>Error</code> when the rejection cause is falsey
+(and passing the original value as the <code>.cause</code> property, as bluebird does).</li>
+<li>Exceptions thrown by callback cause <code>uncaughtException</code> as they would for
+other callbacks (unlike passing callback to <code>.then</code>, which causes
+<code>unhandledRejection</code> or swallows them).</li>
+<li>The callback handles the promise rejection, preventing <code>unhandledRejection</code>
+(unlike if the promise were ignored and callback invoked directly).</li>
+<li>Reduces confusion by only returning a Promise when no callback is given
+(as opposed to returning the promise argument, which creates uncertainty
+about <code>unhandledRejection</code>s and multiple threads of control - or returning
+the result passing the callback to <code>.then</code>, which resolves to the callback
+result).</li>
+</ul>
+<h2>Behavior Comparison</h2><p>This module provides similar behavior to several popular promise libraries in
+a promise-library-agnostic way which only requires the ES6 promise
+functionality subset.  However, these existing implementations differ in
+subtle ways.  A brief comparison:</p>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>this module</th>
+<th><a href="http://bluebirdjs.com/docs/api/ascallback.html">bluebird <code>#asCallback</code></a></th>
+<th><a href="https://github.com/robbertkl/es-nodeify">es-nodeify</a></th>
+<th><a href="https://github.com/then/nodeify">nodeify</a></th>
+<th><a href="https://github.com/then/promise#promisenodeifycallback">then <code>#nodeify</code></a></th>
+<th><a href="https://github.com/blakeembrey/unthenify">Un-thenify</a><sup><a href="#note-1">1</a></sup></th>
+<th><a href="https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback">when.js <code>.bindCallback</code></a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>returns (with <code>function</code>)</td>
+<td><code>undefined</code></td>
+<td><code>this</code> <code>Promise</code><sup><a href="#note-2">2</a></sup></td>
+<td><code>undefined</code></td>
+<td><code>Promise&lt;undefined&gt;</code></td>
+<td><code>undefined</code></td>
+<td><code>undefined</code></td>
+<td><code>when(promise)</code></td>
+</tr>
+<tr>
+<td>returns (with falsey)</td>
+<td><code>promise</code></td>
+<td><code>promise</code></td>
+<td><code>promise</code></td>
+<td><code>Promise&lt;undefined&gt;</code></td>
+<td><code>promise</code></td>
+<td><code>undefined</code> with <code>unhandledRejection</code></td>
+<td><code>when(promise)</code></td>
+</tr>
+<tr>
+<td>returns (non-function)</td>
+<td><code>promise</code></td>
+<td><code>promise</code></td>
+<td><code>undefined</code> with <code>unhandledRejection</code></td>
+<td><code>promise</code></td>
+<td><code>promise</code></td>
+<td><code>undefined</code> with <code>unhandledRejection</code></td>
+<td><code>when(promise)</code> with <code>uncaughtException</code></td>
+</tr>
+<tr>
+<td>callback exception</td>
+<td><code>uncaughtException</code></td>
+<td><code>uncaughtException</code></td>
+<td><code>unhandledRejection</code></td>
+<td><code>uncaughtException</code></td>
+<td><code>uncaughtException</code></td>
+<td><code>unhandledRejection</code></td>
+<td><code>uncaughtException</code></td>
+</tr>
+<tr>
+<td>falsey cause</td>
+<td><code>Error</code> with <code>.cause</code></td>
+<td><code>Error</code> with <code>.cause</code><sup><a href="#note-3">3</a></sup></td>
+<td><code>Error</code></td>
+<td>falsey cause</td>
+<td>falsey cause</td>
+<td><code>TypeError</code></td>
+<td>falsey cause</td>
+</tr>
+<tr>
+<td>reject argument length</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>resolve argument length</td>
+<td>2</td>
+<td><code>undefined</code> ? 1 : 2<sup><a href="#note-4">4</a></sup></td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>extra argument</td>
+<td>ignored</td>
+<td>options<sup><a href="#note-5">5</a></sup></td>
+<td>ignored</td>
+<td>ignored</td>
+<td><code>this</code> of callback</td>
+<td>ignored</td>
+<td>ignored</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ol>
+<li><a id="note-1" name="note-2" /> Un-thenify serves a similar purpose, but
+wraps the Promise-returning function rather than taking the Promise as an
+argument.</li>
+<li><a id="note-2" name="note-3" /> Temporarily reverted in
+https://github.com/petkaantonov/bluebird/issues/151 and restored in
+https://github.com/petkaantonov/bluebird/issues/168</li>
+<li><a id="note-3" name="note-4" /> In response to
+https://github.com/petkaantonov/bluebird/issues/434</li>
+<li><a id="note-4" name="note-5" /> In response to
+https://github.com/petkaantonov/bluebird/issues/170</li>
+<li><a id="note-5" name="note-6" /> Supports the <code>spread</code> boolean option to
+pass <code>Array</code> values as separate arguments to <code>callback</code>.</li>
+</ol>
+<h2>Performance Comparison</h2><p>These benchmarks were done using the <a href="benchmark/index.js">benchmark/index.js</a>
+script on an <code>Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz</code> with Node v4.3.1 on
+Linux and the following module versions:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.npmjs.com/package/benchmark"><code>benchmark</code></a></td>
+<td>2.1.0</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/bluebird"><code>bluebird</code></a></td>
+<td>3.3.3</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/cli-table"><code>cli-table</code></a></td>
+<td>0.3.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/es-nodeify"><code>es-nodeify</code></a></td>
+<td>1.0.0</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/microtime"><code>microtime</code></a></td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/native-promise-only"><code>native-promise-only</code></a></td>
+<td>0.8.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/nodeify"><code>nodeify</code></a></td>
+<td>1.0.0</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/pinkie-promise"><code>pinkie-promise</code></a></td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/promise"><code>promise</code></a></td>
+<td>7.1.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/q"><code>q</code></a></td>
+<td>1.4.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/rsvp"><code>rsvp</code></a></td>
+<td>3.2.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/unthenify"><code>unthenify</code></a></td>
+<td>1.0.1</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/when"><code>when</code></a></td>
+<td>3.7.7</td>
+</tr>
+</tbody>
+</table>
+<h3>Nodeify Resolved Promise</h3><p>Performance (in operations per second) of calling <code>nodeify</code> on a resolved
+promise (larger is better):</p>
+<table>
+<thead>
+<tr>
+<th>ops/sec</th>
+<th style="text-align:right">bluebird</th>
+<th style="text-align:right">native</th>
+<th style="text-align:right">npo</th>
+<th style="text-align:right">pinkie</th>
+<th style="text-align:right">q</th>
+<th style="text-align:right">rsvp</th>
+<th style="text-align:right">then</th>
+<th style="text-align:right">when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bluebird#nodeify</td>
+<td style="text-align:right">1,922,721.987</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+</tr>
+<tr>
+<td>es-nodeify</td>
+<td style="text-align:right">1,345,702.588</td>
+<td style="text-align:right">506,103.345</td>
+<td style="text-align:right">510,887.217</td>
+<td style="text-align:right">534,013.961</td>
+<td style="text-align:right">68,915.816</td>
+<td style="text-align:right">1,974,250.737</td>
+<td style="text-align:right">2,096,468.119</td>
+<td style="text-align:right">1,756,177.934</td>
+</tr>
+<tr>
+<td>nodeify</td>
+<td style="text-align:right">147,481.019</td>
+<td style="text-align:right">251,414.264</td>
+<td style="text-align:right">251,535.145</td>
+<td style="text-align:right">253,880.998</td>
+<td style="text-align:right">58,504.098</td>
+<td style="text-align:right">1,355,812.482</td>
+<td style="text-align:right">1,102,467.756</td>
+<td style="text-align:right">1,160,226.624</td>
+</tr>
+<tr>
+<td>promiseNodeify</td>
+<td style="text-align:right">1,586,092.279</td>
+<td style="text-align:right">481,842.79</td>
+<td style="text-align:right">452,529.247</td>
+<td style="text-align:right">455,657.062</td>
+<td style="text-align:right">66,045.273</td>
+<td style="text-align:right">2,108,607.126</td>
+<td style="text-align:right">2,370,823.723</td>
+<td style="text-align:right">1,942,722.539</td>
+</tr>
+<tr>
+<td>then#nodeify</td>
+<td style="text-align:right">136,716.987</td>
+<td style="text-align:right">202,670.23</td>
+<td style="text-align:right">225,297.257</td>
+<td style="text-align:right">231,042.286</td>
+<td style="text-align:right">56,384.953</td>
+<td style="text-align:right">764,719.55</td>
+<td style="text-align:right">1,320,158.92</td>
+<td style="text-align:right">739,062.155</td>
+</tr>
+<tr>
+<td>unthenify</td>
+<td style="text-align:right">100,638.922</td>
+<td style="text-align:right">79,097.99</td>
+<td style="text-align:right">80,488.25</td>
+<td style="text-align:right">78,298.365</td>
+<td style="text-align:right">40,683.82</td>
+<td style="text-align:right">103,125.162</td>
+<td style="text-align:right">100,618.139</td>
+<td style="text-align:right">101,887.997</td>
+</tr>
+<tr>
+<td>when.bindCallback</td>
+<td style="text-align:right">823.326</td>
+<td style="text-align:right">856.669</td>
+<td style="text-align:right">842.975</td>
+<td style="text-align:right">834.864</td>
+<td style="text-align:right">748.669</td>
+<td style="text-align:right">847.556</td>
+<td style="text-align:right">850.316</td>
+<td style="text-align:right">839.995</td>
+</tr>
+</tbody>
+</table>
+<!-- GitHub sanitizes my attempts to make this toggleable.  Hide for now.
+    bluebird#nodeify with bluebird x 1,922,722 ops/sec ±1.71% (80 runs sampled)
+    bluebird#nodeify with npo: TypeError: this._then is not a function
+    bluebird#nodeify with pinkie: TypeError: this._then is not a function
+    bluebird#nodeify with q: TypeError: this._then is not a function
+    bluebird#nodeify with rsvp: TypeError: this._then is not a function
+    bluebird#nodeify with then: TypeError: this._then is not a function
+    bluebird#nodeify with when: TypeError: this._then is not a function
+    bluebird#nodeify with native: TypeError: this._then is not a function
+    es-nodeify with bluebird x 1,345,703 ops/sec ±0.84% (81 runs sampled)
+    es-nodeify with npo x 510,887 ops/sec ±1.32% (85 runs sampled)
+    es-nodeify with pinkie x 534,014 ops/sec ±0.92% (84 runs sampled)
+    es-nodeify with q x 68,916 ops/sec ±2.99% (70 runs sampled)
+    es-nodeify with rsvp x 1,974,251 ops/sec ±0.84% (85 runs sampled)
+    es-nodeify with then x 2,096,468 ops/sec ±0.77% (84 runs sampled)
+    es-nodeify with when x 1,756,178 ops/sec ±3.48% (82 runs sampled)
+    es-nodeify with native x 506,103 ops/sec ±1.36% (87 runs sampled)
+    nodeify with bluebird x 147,481 ops/sec ±2.80% (71 runs sampled)
+    nodeify with npo x 251,535 ops/sec ±2.60% (77 runs sampled)
+    nodeify with pinkie x 253,881 ops/sec ±2.53% (67 runs sampled)
+    nodeify with q x 58,504 ops/sec ±4.30% (67 runs sampled)
+    nodeify with rsvp x 1,355,812 ops/sec ±2.98% (81 runs sampled)
+    nodeify with then x 1,102,468 ops/sec ±2.09% (81 runs sampled)
+    nodeify with when x 1,160,227 ops/sec ±3.95% (79 runs sampled)
+    nodeify with native x 251,414 ops/sec ±3.02% (77 runs sampled)
+    promiseNodeify with bluebird x 1,586,092 ops/sec ±1.94% (81 runs sampled)
+    promiseNodeify with npo x 452,529 ops/sec ±0.52% (84 runs sampled)
+    promiseNodeify with pinkie x 455,657 ops/sec ±0.50% (85 runs sampled)
+    promiseNodeify with q x 66,045 ops/sec ±4.14% (71 runs sampled)
+    promiseNodeify with rsvp x 2,108,607 ops/sec ±3.66% (81 runs sampled)
+    promiseNodeify with then x 2,370,824 ops/sec ±1.08% (82 runs sampled)
+    promiseNodeify with when x 1,942,723 ops/sec ±0.79% (86 runs sampled)
+    promiseNodeify with native x 481,843 ops/sec ±0.41% (87 runs sampled)
+    then#nodeify with bluebird x 136,717 ops/sec ±1.83% (82 runs sampled)
+    then#nodeify with npo x 225,297 ops/sec ±2.92% (81 runs sampled)
+    then#nodeify with pinkie x 231,042 ops/sec ±2.14% (80 runs sampled)
+    then#nodeify with q x 56,385 ops/sec ±3.88% (75 runs sampled)
+    then#nodeify with rsvp x 764,720 ops/sec ±3.37% (81 runs sampled)
+    then#nodeify with then x 1,320,159 ops/sec ±2.67% (81 runs sampled)
+    then#nodeify with when x 739,062 ops/sec ±0.78% (85 runs sampled)
+    then#nodeify with native x 202,670 ops/sec ±6.14% (74 runs sampled)
+    unthenify with bluebird x 100,639 ops/sec ±2.24% (84 runs sampled)
+    unthenify with npo x 80,488 ops/sec ±2.78% (84 runs sampled)
+    unthenify with pinkie x 78,298 ops/sec ±3.08% (81 runs sampled)
+    unthenify with q x 40,684 ops/sec ±3.94% (73 runs sampled)
+    unthenify with rsvp x 103,125 ops/sec ±0.78% (84 runs sampled)
+    unthenify with then x 100,618 ops/sec ±3.56% (83 runs sampled)
+    unthenify with when x 101,888 ops/sec ±0.46% (82 runs sampled)
+    unthenify with native x 79,098 ops/sec ±3.09% (83 runs sampled)
+    when.bindCallback with bluebird x 823 ops/sec ±1.21% (76 runs sampled)
+    when.bindCallback with npo x 843 ops/sec ±0.96% (75 runs sampled)
+    when.bindCallback with pinkie x 835 ops/sec ±0.97% (75 runs sampled)
+    when.bindCallback with q x 749 ops/sec ±1.55% (73 runs sampled)
+    when.bindCallback with rsvp x 848 ops/sec ±0.94% (77 runs sampled)
+    when.bindCallback with then x 850 ops/sec ±0.86% (76 runs sampled)
+    when.bindCallback with when x 840 ops/sec ±0.86% (76 runs sampled)
+    when.bindCallback with native x 857 ops/sec ±1.41% (38 runs sampled)
+-->
+<h3>Nodeify Rejected Promise</h3><p>Performance (in operations per second) of calling <code>nodeify</code> on a rejected
+promise (larger is better):</p>
+<table>
+<thead>
+<tr>
+<th>ops/sec</th>
+<th style="text-align:right">bluebird</th>
+<th style="text-align:right">native</th>
+<th style="text-align:right">npo</th>
+<th style="text-align:right">pinkie</th>
+<th style="text-align:right">q</th>
+<th style="text-align:right">rsvp</th>
+<th style="text-align:right">then</th>
+<th style="text-align:right">when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bluebird#nodeify</td>
+<td style="text-align:right">1,889,496.469</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+<td style="text-align:right">TypeError</td>
+</tr>
+<tr>
+<td>es-nodeify</td>
+<td style="text-align:right">1,247,981.228</td>
+<td style="text-align:right">520,349.959</td>
+<td style="text-align:right">455,337.77</td>
+<td style="text-align:right">466,964.692</td>
+<td style="text-align:right">64,703.247</td>
+<td style="text-align:right">2,182,281.005</td>
+<td style="text-align:right">2,062,330.035</td>
+<td style="text-align:right">1,889,184.935</td>
+</tr>
+<tr>
+<td>nodeify</td>
+<td style="text-align:right">147,454.87</td>
+<td style="text-align:right">325,956.476</td>
+<td style="text-align:right">326,958.556</td>
+<td style="text-align:right">325,971.637</td>
+<td style="text-align:right">53,878.098</td>
+<td style="text-align:right">1,232,726.201</td>
+<td style="text-align:right">952,338.091</td>
+<td style="text-align:right">926,626.949</td>
+</tr>
+<tr>
+<td>promiseNodeify</td>
+<td style="text-align:right">1,170,756.604</td>
+<td style="text-align:right">465,186.326</td>
+<td style="text-align:right">478,343.59</td>
+<td style="text-align:right">489,024.094</td>
+<td style="text-align:right">62,905.801</td>
+<td style="text-align:right">2,097,277.371</td>
+<td style="text-align:right">1,928,682.943</td>
+<td style="text-align:right">1,497,451.328</td>
+</tr>
+<tr>
+<td>then#nodeify</td>
+<td style="text-align:right">131,588.987</td>
+<td style="text-align:right">241,627.02</td>
+<td style="text-align:right">246,557.24</td>
+<td style="text-align:right">245,427.553</td>
+<td style="text-align:right">49,655.492</td>
+<td style="text-align:right">684,232.864</td>
+<td style="text-align:right">1,178,175.996</td>
+<td style="text-align:right">634,041.464</td>
+</tr>
+<tr>
+<td>unthenify</td>
+<td style="text-align:right">96,359.916</td>
+<td style="text-align:right">82,291.679</td>
+<td style="text-align:right">82,507.055</td>
+<td style="text-align:right">83,324.584</td>
+<td style="text-align:right">38,842.741</td>
+<td style="text-align:right">96,432.332</td>
+<td style="text-align:right">97,113.05</td>
+<td style="text-align:right">99,892.099</td>
+</tr>
+<tr>
+<td>when.bindCallback</td>
+<td style="text-align:right">822.083</td>
+<td style="text-align:right">837.698</td>
+<td style="text-align:right">848.358</td>
+<td style="text-align:right">851.348</td>
+<td style="text-align:right">789.546</td>
+<td style="text-align:right">854.184</td>
+<td style="text-align:right">844.102</td>
+<td style="text-align:right">851.644</td>
+</tr>
+</tbody>
+</table>
+<!-- GitHub sanitizes my attempts to make this toggleable.  Hide for now.
+    bluebird#nodeify with bluebird x 1,889,496 ops/sec ±1.37% (83 runs sampled)
+    bluebird#nodeify with npo: TypeError: this._then is not a function
+    bluebird#nodeify with pinkie: TypeError: this._then is not a function
+    bluebird#nodeify with q: TypeError: this._then is not a function
+    bluebird#nodeify with rsvp: TypeError: this._then is not a function
+    bluebird#nodeify with then: TypeError: this._then is not a function
+    bluebird#nodeify with when: TypeError: this._then is not a function
+    bluebird#nodeify with native: TypeError: this._then is not a function
+    es-nodeify with bluebird x 1,247,981 ops/sec ±1.41% (78 runs sampled)
+    es-nodeify with npo x 455,338 ops/sec ±3.80% (85 runs sampled)
+    es-nodeify with pinkie x 466,965 ops/sec ±2.77% (81 runs sampled)
+    es-nodeify with q x 64,703 ops/sec ±3.54% (73 runs sampled)
+    es-nodeify with rsvp x 2,182,281 ops/sec ±2.07% (83 runs sampled)
+    es-nodeify with then x 2,062,330 ops/sec ±0.67% (83 runs sampled)
+    es-nodeify with when x 1,889,185 ops/sec ±0.62% (85 runs sampled)
+    es-nodeify with native x 520,350 ops/sec ±0.39% (86 runs sampled)
+    nodeify with bluebird x 147,455 ops/sec ±2.51% (74 runs sampled)
+    nodeify with npo x 326,959 ops/sec ±2.44% (81 runs sampled)
+    nodeify with pinkie x 325,972 ops/sec ±2.19% (82 runs sampled)
+    nodeify with q x 53,878 ops/sec ±4.86% (66 runs sampled)
+    nodeify with rsvp x 1,232,726 ops/sec ±4.10% (81 runs sampled)
+    nodeify with then x 952,338 ops/sec ±0.98% (83 runs sampled)
+    nodeify with when x 926,627 ops/sec ±5.41% (69 runs sampled)
+    nodeify with native x 325,956 ops/sec ±3.21% (77 runs sampled)
+    promiseNodeify with bluebird x 1,170,757 ops/sec ±2.39% (84 runs sampled)
+    promiseNodeify with npo x 478,344 ops/sec ±1.87% (84 runs sampled)
+    promiseNodeify with pinkie x 489,024 ops/sec ±0.47% (86 runs sampled)
+    promiseNodeify with q x 62,906 ops/sec ±4.73% (69 runs sampled)
+    promiseNodeify with rsvp x 2,097,277 ops/sec ±2.18% (84 runs sampled)
+    promiseNodeify with then x 1,928,683 ops/sec ±0.99% (85 runs sampled)
+    promiseNodeify with when x 1,497,451 ops/sec ±0.47% (83 runs sampled)
+    promiseNodeify with native x 465,186 ops/sec ±3.41% (85 runs sampled)
+    then#nodeify with bluebird x 131,589 ops/sec ±2.36% (81 runs sampled)
+    then#nodeify with npo x 246,557 ops/sec ±1.59% (88 runs sampled)
+    then#nodeify with pinkie x 245,428 ops/sec ±2.68% (82 runs sampled)
+    then#nodeify with q x 49,655 ops/sec ±4.59% (70 runs sampled)
+    then#nodeify with rsvp x 684,233 ops/sec ±0.56% (86 runs sampled)
+    then#nodeify with then x 1,178,176 ops/sec ±0.77% (83 runs sampled)
+    then#nodeify with when x 634,041 ops/sec ±2.52% (83 runs sampled)
+    then#nodeify with native x 241,627 ops/sec ±2.28% (86 runs sampled)
+    unthenify with bluebird x 96,360 ops/sec ±0.54% (85 runs sampled)
+    unthenify with npo x 82,507 ops/sec ±1.38% (85 runs sampled)
+    unthenify with pinkie x 83,325 ops/sec ±0.33% (85 runs sampled)
+    unthenify with q x 38,843 ops/sec ±3.26% (75 runs sampled)
+    unthenify with rsvp x 96,432 ops/sec ±4.63% (80 runs sampled)
+    unthenify with then x 97,113 ops/sec ±2.47% (83 runs sampled)
+    unthenify with when x 99,892 ops/sec ±0.48% (85 runs sampled)
+    unthenify with native x 82,292 ops/sec ±0.39% (85 runs sampled)
+    when with bluebird x 822 ops/sec ±1.11% (78 runs sampled)
+    when with npo x 848 ops/sec ±0.90% (77 runs sampled)
+    when with pinkie x 851 ops/sec ±0.99% (74 runs sampled)
+    when with q x 790 ops/sec ±1.72% (73 runs sampled)
+    when with rsvp x 854 ops/sec ±0.98% (75 runs sampled)
+    when with then x 844 ops/sec ±0.94% (74 runs sampled)
+    when with when x 852 ops/sec ±0.93% (75 runs sampled)
+    when with native x 838 ops/sec ±0.94% (76 runs sampled)
+-->
+<h2>Installation</h2><h3>NPM</h3><p><a href="https://www.npmjs.com/package/promise-nodeify">This package</a> can be installed
+using <a href="https://www.npmjs.com/">npm</a> by running:</p>
+<pre class="prettyprint source lang-sh"><code>npm install promise-nodeify</code></pre><h3>Browser</h3><p>This package can be installed using <a href="http://bower.io/">bower</a> by running:</p>
+<pre class="prettyprint source lang-sh"><code>bower install promise-nodeify</code></pre><h3>Without Package Manager</h3><p>This module is also available with a <a href="https://github.com/umdjs/umd">UMD</a>
+loader, both minified and un-minified, in the <a href="dist"><code>dist</code> directory</a>.  They
+can be downloaded, self-hosted, or loaded from a CDN.  To use the <a href="https://rawgit.com/">RawGit
+CDN</a>, use the following (X)HTML:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://cdn.rawgit.com/kevinoid/promise-nodeify/v0.1.0/dist/promise-nodeify.min.js&quot;>&lt;/script></code></pre><h2>Recipes</h2><h3>Delegate to <code>Promise.prototype.nodeify</code></h3><p>If the behavior differences discussed in the <a href="#behavior-comparison">Behavior
+Comparison</a> section (and any future differences which
+may occur) are not significant to your use case and you are interested in
+taking advantage of the potential <a href="#performance-comparison">performance
+benefit</a> of the implementation provided by the
+promise library, use the <code>.delegated</code> function:</p>
+<pre class="prettyprint source lang-js"><code>// Using .delegated delegates to .nodeify on the promise argument when present
+var promiseNodeify = require('promise-nodeify').delegated;
+
+function returnsPromise() {
+  return new Promise(function(resolve, reject) {
+    resolve(42);
+  });
+}
+
+function takesCallback(callback) {
+  var promise = returnsPromise();
+  return promiseNodeify(promise, callback);
+}</code></pre><h3>Polyfill <code>Promise.prototype.nodeify</code></h3><p>To polyfill the <code>.nodeify</code> (or <code>.asCallback</code>) method for a Promise library,
+assign the <code>.nodeifyThis</code> function to <code>Promise.prototype.nodeify</code> as follows:</p>
+<pre class="prettyprint source lang-js"><code>Promise.prototype.nodeify = require('promise-nodeify').nodeifyThis;
+
+function returnsPromise() {
+  return new Promise(function(resolve, reject) {
+    resolve(42);
+  });
+}
+
+function takesCallback(callback) {
+  var promise = returnsPromise();
+  return promise.nodeify(callback);
+}</code></pre><p>More examples can be found in the <a href="https://kevinoid.github.io/promise-nodeify/specs">test
+specifications</a>.</p>
+<h2>API Docs</h2><p>For a description of the available functions and their arguments, see the <a href="https://kevinoid.github.io/promise-nodeify/api">API
+Documentation</a>.</p>
+<h2>Contributing</h2><p>Contributions are welcome and very much appreciated!  Please add tests to
+cover any changes and ensure <code>npm test</code> passes.</p>
+<p>The <code>dist</code> files are only updated for releases, so please don't include them
+in pull requests.</p>
+<p>If the desired change is large, complex, backwards-incompatible, can have
+significantly differing implementations, or may not be in scope for this
+project, opening an issue before writing the code can avoid frustration and
+save a lot of time and effort.</p>
+<h2>License</h2><p>This package is available under the terms of the
+<a href="https://opensource.org/licenses/MIT">MIT License</a>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-promise-nodeify.html">promise-nodeify</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Apr 01 2016 23:02:05 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
