@@ -1,7 +1,8 @@
 promise-nodeify
 ===============
 
-[![Build status](https://img.shields.io/travis/kevinoid/promise-nodeify.svg?style=flat)](https://travis-ci.org/kevinoid/promise-nodeify)
+[![Build Status: Linux](https://img.shields.io/travis/kevinoid/promise-nodeify/master.svg?style=flat&label=build+on+linux)](https://travis-ci.org/kevinoid/promise-nodeify)
+[![Build Status: Windows](https://img.shields.io/appveyor/ci/kevinoid/promise-nodeify/master.svg?style=flat&label=build+on+windows)](https://ci.appveyor.com/project/kevinoid/promise-nodeify)
 [![Coverage](https://img.shields.io/codecov/c/github/kevinoid/promise-nodeify.svg?style=flat)](https://codecov.io/github/kevinoid/promise-nodeify?branch=master)
 [![Dependency Status](https://img.shields.io/david/kevinoid/promise-nodeify.svg?style=flat)](https://david-dm.org/kevinoid/promise-nodeify)
 [![Supported Node Version](https://img.shields.io/node/v/promise-nodeify.svg?style=flat)](https://www.npmjs.com/package/promise-nodeify)
@@ -334,7 +335,7 @@ function takesCallback(callback) {
 ```
 
 More examples can be found in the [test
-specifications](https://kevinoid.github.io/promise-nodeify/specs).
+specifications](https://kevinoid.github.io/promise-nodeify/spec).
 
 ## API Docs
 

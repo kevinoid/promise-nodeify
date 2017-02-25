@@ -1,3 +1,8 @@
+.editorconfig
+.eslintignore
+.eslintrc
+.npmignore
+.travis.yml
 /benchmark/
 /coverage/
 /dist/
@@ -6,6 +11,8 @@
 /scripts/
 /test-lib/
 /test/
+TODO.*
+appveyor.yml
 bower.json
 gulpfile.js
 jsdoc*.conf.json
