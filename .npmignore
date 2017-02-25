@@ -6,5 +6,6 @@
 /scripts/
 /test-lib/
 /test/
+bower.json
 gulpfile.js
 jsdoc*.conf.json
