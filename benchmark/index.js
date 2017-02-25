@@ -3,10 +3,14 @@
  * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
+
 'use strict';
 
 // Importing es-nodeify requires assigning to the Promise global
 /* global Promise:true */
+
+// For convenience, it's easier to require modules inline in this file.
+/* eslint-disable global-require */
 
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required

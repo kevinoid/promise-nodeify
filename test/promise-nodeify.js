@@ -2,6 +2,7 @@
  * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
+
 'use strict';
 
 var BBPromise = require('bluebird').Promise;
@@ -27,7 +28,7 @@ describe('promiseNodeify', function() {
     });
 
     it('passes undefined value to callback on resolution', function(done) {
-      var value = undefined;
+      var value;
       var promise = PPromise.resolve(value);
       promiseNodeify(promise, function(err, result) {
         // Note:  arguments.length is unspecified
@@ -65,7 +66,7 @@ describe('promiseNodeify', function() {
         assert.strictEqual(arguments.length, 1);
         assert(err instanceof Error);
         assert.strictEqual(err.message, String(cause));
-        assert(err.hasOwnProperty('cause'));
+        assert(hasOwnProperty.call(err, 'cause'));
         assert.strictEqual(err.cause, cause);
         done();
       });
