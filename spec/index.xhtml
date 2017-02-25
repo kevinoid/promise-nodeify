@@ -38,7 +38,7 @@ promiseNodeify(promise, function(err, result) {
   done();
 });</code></pre></dd>
             <dt>passes undefined value to callback on resolution</dt>
-            <dd><pre><code>var value = undefined;
+            <dd><pre><code>var value;
 var promise = PPromise.resolve(value);
 promiseNodeify(promise, function(err, result) {
   // Note:  arguments.length is unspecified
@@ -70,7 +70,7 @@ promiseNodeify(promise, function(err) {
   assert.strictEqual(arguments.length, 1);
   assert(err instanceof Error);
   assert.strictEqual(err.message, String(cause));
-  assert(err.hasOwnProperty('cause'));
+  assert(hasOwnProperty.call(err, 'cause'));
   assert.strictEqual(err.cause, cause);
   done();
 });</code></pre></dd>
