@@ -11,6 +11,7 @@
  * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
+
 'use strict';
 
 /** Function which will run with a clear stack as soon as possible.
