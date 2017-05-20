@@ -49,7 +49,7 @@
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.5.0",
-    "gulp-uglify": "^2.0.0",
+    "gulp-uglify": "^3.0.0",
     "gulp-umd": "^0.2.0",
     "istanbul": "^0.4.1",
     "jsdoc": "^3.4.1",
