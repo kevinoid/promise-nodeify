@@ -17,7 +17,8 @@ gulp.task('default', function() {
   return gulp.src('index.js')
     .pipe(rename({basename: 'promise-nodeify'}))
     .pipe(umd({
-      exports: function() { return 'promiseNodeify'; }
+      exports: function() { return 'promiseNodeify'; },
+      namespace: function() { return 'promiseNodeify'; }
     }))
     .pipe(gulp.dest(DIST_DIR))
     .pipe(sourcemaps.init())
