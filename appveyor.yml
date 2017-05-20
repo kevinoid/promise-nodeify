@@ -21,7 +21,7 @@ install:
 test_script:
   - node --version
   - npm --version
-  - npm test
+  - npm run test-ci
 
 # Disable build step, which we don't need
 build: off

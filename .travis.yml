@@ -19,7 +19,7 @@ node_js:
 sudo: false
 
 script:
-  - npm run test-cov
+  - npm run test-ci-cov
 
 # Note:  Both codecov and coveralls detect branch/PR info from Travis CI
 # https://github.com/codecov/codecov-node/blob/v1.0.1/lib/services/travis.js
