@@ -6,6 +6,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var pump = require('pump');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
@@ -13,17 +14,20 @@ var umd = require('gulp-umd');
 
 var DIST_DIR = 'dist';
 
-gulp.task('default', function() {
-  return gulp.src('index.js')
-    .pipe(rename({basename: 'promise-nodeify'}))
-    .pipe(umd({
+gulp.task('default', function(done) {
+  pump(
+    gulp.src('index.js'),
+    rename({basename: 'promise-nodeify'}),
+    umd({
       exports: function() { return 'promiseNodeify'; },
       namespace: function() { return 'promiseNodeify'; }
-    }))
-    .pipe(gulp.dest(DIST_DIR))
-    .pipe(sourcemaps.init())
-      .pipe(uglify({output: {comments: 'some'}}))
-      .pipe(rename({extname: '.min.js'}))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(DIST_DIR));
+    }),
+    gulp.dest(DIST_DIR),
+    sourcemaps.init(),
+      uglify({output: {comments: 'some'}}),
+      rename({extname: '.min.js'}),
+    sourcemaps.write('.'),
+    gulp.dest(DIST_DIR),
+    done
+  );
 });

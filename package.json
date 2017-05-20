@@ -57,6 +57,7 @@
     "node-version-check": "^2.1.1",
     "nodecat": "^1.0.0",
     "promise-finally": "^2.1.0",
+    "pump": "^1.0.2",
     "rimraf": "^2.2.0"
   },
   "engines": {
