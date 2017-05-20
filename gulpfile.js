@@ -22,7 +22,7 @@ gulp.task('default', function() {
     }))
     .pipe(gulp.dest(DIST_DIR))
     .pipe(sourcemaps.init())
-      .pipe(uglify({preserveComments: 'license'}))
+      .pipe(uglify({output: {comments: 'some'}}))
       .pipe(rename({extname: '.min.js'}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(DIST_DIR));
