@@ -4,7 +4,7 @@
   } else if (typeof exports === 'object') {
     module.exports = factory();
   } else {
-    root.Promise-nodeify = factory();
+    root.promiseNodeify = factory();
   }
 }(this, function() {
 /** @module promise-nodeify
