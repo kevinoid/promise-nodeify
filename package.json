@@ -54,7 +54,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-umd": "^0.2.0",
     "istanbul": "^0.4.1",
-    "jsdoc": "~3.4.1",
+    "jsdoc": "~3.5.2",
     "mocha": "^3.2.0",
     "node-version-check": "^2.1.1",
     "nodecat": "^1.0.0",
