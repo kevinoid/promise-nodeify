@@ -68,7 +68,9 @@
   },
   "greenkeeper": {
     "ignore": [
-      "jsdoc"
+      "gulp-sourcemaps",
+      "jsdoc",
+      "promise-finally"
     ]
   }
 }
