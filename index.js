@@ -11,8 +11,8 @@
 var later =
   typeof process !== 'undefined' &&
     typeof process.nextTick === 'function' ? process.nextTick :
-  typeof setImmediate === 'function' ? setImmediate :
-  setTimeout;
+    typeof setImmediate === 'function' ? setImmediate :
+      setTimeout;
 
 /** Invokes callback and ensures any exceptions thrown are uncaught.
  * @private

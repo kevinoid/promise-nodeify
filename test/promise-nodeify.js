@@ -128,12 +128,12 @@ describe('promiseNodeify', function() {
       var promise = PPromise.reject(cause);
       var promise2 = promiseNodeify(promise, null);
       return promise2.then(
-          function() {
-            assert(false, 'Promise should be rejected');
-          },
-          function(err) {
-            assert.strictEqual(err, cause);
-          }
+        function() {
+          assert(false, 'Promise should be rejected');
+        },
+        function(err) {
+          assert.strictEqual(err, cause);
+        }
       );
     });
   });

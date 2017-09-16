@@ -215,8 +215,8 @@ function formatResultsTxt(suite, useColor) {
     var tableColors = suite.map(function(bench) {
       return bench.error ? colors.red :
         bench.hz < lowerQuartile ? colors.red :
-        bench.hz > upperQuartile ? colors.green :
-        colors.yellow;
+          bench.hz > upperQuartile ? colors.green :
+            colors.yellow;
     });
     tableValues = tableValues.map(function(value, i) {
       return tableColors[i](value);

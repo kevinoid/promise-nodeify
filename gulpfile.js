@@ -24,8 +24,8 @@ gulp.task('default', function(done) {
     }),
     gulp.dest(DIST_DIR),
     sourcemaps.init(),
-      uglify({output: {comments: 'some'}}),
-      rename({extname: '.min.js'}),
+    uglify({output: {comments: 'some'}}),
+    rename({extname: '.min.js'}),
     sourcemaps.write('.'),
     gulp.dest(DIST_DIR),
     done
