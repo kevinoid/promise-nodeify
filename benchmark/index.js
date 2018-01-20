@@ -15,18 +15,18 @@
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required
 // native-promise-only will overwrite if falsey when required
-var NPromise = typeof Promise !== 'undefined' ? Promise : undefined;
+const NPromise = typeof Promise !== 'undefined' ? Promise : undefined;
 
-var Benchmark = require('benchmark');
-var CliTable = require('cli-table');
-var Stats = require('fast-stats').Stats;
-var assert = require('assert');
-var colors = require('colors/safe');
+const Benchmark = require('benchmark');
+const CliTable = require('cli-table');
+const Stats = require('fast-stats').Stats;
+const assert = require('assert');
+const colors = require('colors/safe');
 
 /** Nodeify functions to benchmark with human-readable name, indexed by global
  * name.
  */
-var NODEIFY_FUNCTIONS = {
+const NODEIFY_FUNCTIONS = {
   bluebirdNodeify: {
     name: 'bluebird#nodeify',
     isMethod: true,
@@ -64,9 +64,9 @@ var NODEIFY_FUNCTIONS = {
     name: 'unthenify',
     isMethod: false,
     nodeify: (function() {
-      var unthenify = require('unthenify');
+      const unthenify = require('unthenify');
       return function unthenifyNodeify(promise, callback) {
-        return unthenify(function() { return promise; })(callback);
+        return unthenify(() => promise)(callback);
       };
     }())
   },
@@ -79,7 +79,7 @@ var NODEIFY_FUNCTIONS = {
 
 /** Promise types to benchmark with human-readable name, indexed by global name
  */
-var PROMISE_TYPES = {
+const PROMISE_TYPES = {
   BBPromise: {
     name: 'bluebird',
     Promise: require('bluebird').Promise
@@ -121,11 +121,11 @@ if (NPromise) {
  * @private
  */
 function defineGlobals() {
-  Object.keys(NODEIFY_FUNCTIONS).forEach(function(nodeifyName) {
+  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
     global[nodeifyName] = NODEIFY_FUNCTIONS[nodeifyName].nodeify;
   });
 
-  Object.keys(PROMISE_TYPES).forEach(function(promiseName) {
+  Object.keys(PROMISE_TYPES).forEach((promiseName) => {
     global[promiseName] = PROMISE_TYPES[promiseName].Promise;
   });
 }
@@ -134,53 +134,54 @@ function defineGlobals() {
  * @private
  */
 function deleteGlobals() {
-  Object.keys(NODEIFY_FUNCTIONS).forEach(function(nodeifyName) {
+  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
     delete global[nodeifyName];
   });
 
-  Object.keys(PROMISE_TYPES).forEach(function(promiseName) {
+  Object.keys(PROMISE_TYPES).forEach((promiseName) => {
     delete global[promiseName];
   });
 }
 
 function defineSuites() {
-  var resolvedSuite = new Benchmark.Suite('nodeify resolved');
-  var rejectedSuite = new Benchmark.Suite('nodeify rejected');
+  const resolvedSuite = new Benchmark.Suite('nodeify resolved');
+  const rejectedSuite = new Benchmark.Suite('nodeify rejected');
 
-  Object.keys(NODEIFY_FUNCTIONS).forEach(function(nodeifyName) {
-    var nodeifyFunction = NODEIFY_FUNCTIONS[nodeifyName];
-    Object.keys(PROMISE_TYPES).forEach(function(promiseName) {
-      var promiseType = PROMISE_TYPES[promiseName];
+  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
+    const nodeifyFunction = NODEIFY_FUNCTIONS[nodeifyName];
+    Object.keys(PROMISE_TYPES).forEach((promiseName) => {
+      const promiseType = PROMISE_TYPES[promiseName];
 
       resolvedSuite.add(
-        nodeifyFunction.name + ' with ' + promiseType.name,
+        `${nodeifyFunction.name} with ${promiseType.name}`,
         {
           defer: true,
           fn: nodeifyFunction.isMethod ?
             'promise.nodeify(function() { deferred.resolve(); });' :
-            nodeifyName + '(promise, function() { deferred.resolve(); });',
+            `${nodeifyName}(promise, function() { deferred.resolve(); });`,
           // Expose deferred on benchmark so we can recover from errors.
           // See https://github.com/bestiejs/benchmark.js/issues/123
+          // eslint-disable-next-line prefer-template
           setup: 'this.benchmark._original.deferred = deferred;\n' +
-            'var promise = ' + promiseName + '.resolve(true);\n' +
+            `var promise = ${promiseName}.resolve(true);\n` +
             (nodeifyFunction.isMethod ?
-              'promise.nodeify = ' + nodeifyName + ';' : '')
+              `promise.nodeify = ${nodeifyName};` : '')
         }
       );
 
       rejectedSuite.add(
-        nodeifyFunction.name + ' with ' + promiseType.name,
+        `${nodeifyFunction.name} with ${promiseType.name}`,
         {
           defer: true,
           fn: nodeifyFunction.isMethod ?
             'promise.nodeify(function() { deferred.resolve(); });' :
-            nodeifyName + '(promise, function() { deferred.resolve(); });',
+            `${nodeifyName}(promise, function() { deferred.resolve(); });`,
           // Expose deferred on benchmark so we can recover from errors.
           // See https://github.com/bestiejs/benchmark.js/issues/123
-          setup: 'this.benchmark._original.deferred = deferred;\n' +
-            'var promise = ' + promiseName + '.reject(new Error());\n' +
-            (nodeifyFunction.isMethod ?
-              'promise.nodeify = ' + nodeifyName + ';' : '')
+          setup: `${'this.benchmark._original.deferred = deferred;\n' +
+            'var promise = '}${promiseName}.reject(new Error());\n${
+            nodeifyFunction.isMethod ?
+              `promise.nodeify = ${nodeifyName};` : ''}`
         }
       );
     });
@@ -190,40 +191,37 @@ function defineSuites() {
 }
 
 function formatResultsTxt(suite, useColor) {
-  var rowNames = Object.keys(NODEIFY_FUNCTIONS)
-    .map(function(funcName) { return NODEIFY_FUNCTIONS[funcName].name; });
-  var colNames = Object.keys(PROMISE_TYPES)
-    .map(function(promiseName) { return PROMISE_TYPES[promiseName].name; });
+  const rowNames = Object.keys(NODEIFY_FUNCTIONS)
+    .map((funcName) => NODEIFY_FUNCTIONS[funcName].name);
+  const colNames = Object.keys(PROMISE_TYPES)
+    .map((promiseName) => PROMISE_TYPES[promiseName].name);
 
-  var numRows = rowNames.length;
-  var numCols = colNames.length;
+  const numRows = rowNames.length;
+  const numCols = colNames.length;
   assert.strictEqual(suite.length, numRows * numCols);
 
-  var tableValues = suite.map(function(bench) {
-    return bench.error ? bench.error.name : bench.hz.toLocaleString();
-  });
+  let tableValues =
+    suite.map(
+      (bench) => (bench.error ? bench.error.name : bench.hz.toLocaleString())
+    );
   if (useColor) {
-    var numberValues = suite
-      .filter(function(bench) { return !bench.error; })
-      .map(function(bench) { return bench.hz; });
+    const numberValues = suite
+      .filter((bench) => !bench.error)
+      .map((bench) => bench.hz);
 
-    var stats = new Stats();
+    const stats = new Stats();
     stats.push(numberValues);
-    var lowerQuartile = stats.percentile(25);
-    var upperQuartile = stats.percentile(75);
+    const lowerQuartile = stats.percentile(25);
+    const upperQuartile = stats.percentile(75);
 
-    var tableColors = suite.map(function(bench) {
-      return bench.error ? colors.red :
-        bench.hz < lowerQuartile ? colors.red :
-          bench.hz > upperQuartile ? colors.green :
-            colors.yellow;
-    });
-    tableValues = tableValues.map(function(value, i) {
-      return tableColors[i](value);
-    });
+    const tableColors = suite.map((bench) => (bench.error ? colors.red :
+      bench.hz < lowerQuartile ? colors.red :
+        bench.hz > upperQuartile ? colors.green :
+          colors.yellow));
+    tableValues = tableValues.map((value, i) => tableColors[i](value));
   }
 
-  var table = new CliTable({
+  const table = new CliTable({
     chars: {
       bottom: '',
       'bottom-left': '',
@@ -247,20 +245,21 @@ function formatResultsTxt(suite, useColor) {
     }
   });
   if (!useColor) {
-    var headMarkers = colNames.map(function(name) {
-      return '--------------------'.slice(0, Math.max(name.length, 3)) + ':';
+    const headMarkers = colNames.map((name) => {
+      const line = '--------------------'.slice(0, Math.max(name.length, 3));
+      return `${line}:`;
     });
     table.push(['-------'].concat(headMarkers));
   }
-  rowNames.forEach(function(rowName, i) {
-    var rowValues = tableValues.slice(i * numCols, (i + 1) * numCols);
+  rowNames.forEach((rowName, i) => {
+    const rowValues = tableValues.slice(i * numCols, (i + 1) * numCols);
     table.push([rowName].concat(rowValues));
   });
   return table.toString();
 }
 
 function runSuite(suite, options, cb) {
-  var currentBenchmark;
+  let currentBenchmark;
   function onBenchmarkError(err) {
     // Set the error property of the benchmark, as the internals would do
     currentBenchmark.error = err;
@@ -272,7 +271,7 @@ function runSuite(suite, options, cb) {
   function onBenchmarkTimeout() {
     onBenchmarkError(new Error('Timeout'));
   }
-  var benchmarkTimeout;
+  let benchmarkTimeout;
   function benchmarkStart() {
     assert(!currentBenchmark, 'concurrent benchmarks not supported');
     currentBenchmark = this;
@@ -285,13 +284,13 @@ function runSuite(suite, options, cb) {
     process.removeListener('uncaughtException', onBenchmarkError);
     currentBenchmark = null;
   }
-  suite.forEach(function(bench) {
+  suite.forEach((bench) => {
     bench.on('start', benchmarkStart);
     bench.on('complete', benchmarkComplete);
   });
 
   function done(err, value) {
-    suite.forEach(function(bench) {
+    suite.forEach((bench) => {
       bench.off('start', benchmarkStart);
       bench.off('complete', benchmarkComplete);
     });
@@ -300,14 +299,14 @@ function runSuite(suite, options, cb) {
   }
 
   suite
-    .on('abort', function() {
+    .on('abort', () => {
       done(new Error('Aborted'));
     })
-    .on('cycle', function(evt) {
-      var bench = evt.target;
+    .on('cycle', (evt) => {
+      const bench = evt.target;
       // Workaround for https://github.com/bestiejs/benchmark.js/pull/122
       options.out.write(
-        (bench.error ? bench.name + ': ' + bench.error : String(bench)) + '\n'
+        `${bench.error ? `${bench.name}: ${bench.error}` : String(bench)}\n`
       );
     })
     .on('complete', function() {
@@ -320,7 +319,7 @@ function runSuite(suite, options, cb) {
 }
 
 function nodeifyBenchmark(args, options, callback) {
-  var suites = defineSuites();
+  const suites = defineSuites();
 
   function runNext() {
     if (suites.length === 0) {
@@ -328,14 +327,14 @@ function nodeifyBenchmark(args, options, callback) {
       return;
     }
 
-    var suite = suites.shift();
-    runSuite(suite, options, function(err) {
+    const suite = suites.shift();
+    runSuite(suite, options, (err) => {
       if (err) {
         callback(err);
         return;
       }
 
-      options.out.write(formatResultsTxt(suite, process.stdout.isTTY) + '\n');
+      options.out.write(`${formatResultsTxt(suite, process.stdout.isTTY)}\n`);
       runNext();
     });
   }
@@ -350,16 +349,16 @@ module.exports.runSuite = runSuite;
 if (require.main === module) {
   // This file was invoked directly.
   /* eslint-disable no-process-exit */
-  var mainOptions = {
+  const mainOptions = {
     in: process.stdin,
     out: process.stdout,
     err: process.stderr
   };
-  nodeifyBenchmark(process.argv, mainOptions, function(err, code) {
+  nodeifyBenchmark(process.argv, mainOptions, (err, code) => {
     if (err) {
       if (err.stdout) { process.stdout.write(err.stdout); }
       if (err.stderr) { process.stderr.write(err.stderr); }
-      process.stderr.write(err.name + ': ' + err.message + '\n');
+      process.stderr.write(`${err.name}: ${err.message}\n`);
 
       code = typeof err.code === 'number' ? err.code : 1;
     }

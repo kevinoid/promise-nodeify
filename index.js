@@ -8,7 +8,7 @@
 /** Function which will run with a clear stack as soon as possible.
  * @private
  */
-var later =
+const later =
   typeof process !== 'undefined' &&
     typeof process.nextTick === 'function' ? process.nextTick :
     typeof setImmediate === 'function' ? setImmediate :
@@ -32,7 +32,7 @@ function doCallback(callback, reason, value) {
       callback(null, value);
     }
   } catch (err) {
-    later(function() { throw err; });
+    later(() => { throw err; });
   }
 }
 
@@ -69,12 +69,12 @@ function promiseNodeify(promise, callback) {
     // callback is unlikely to recognize or expect a falsey error.
     // (we also rely on truthyness for arguments.length in doCallback)
     // Convert it to something truthy
-    var truthyReason = reason;
+    let truthyReason = reason;
     if (!truthyReason) {
       // Note:  unthenify converts falsey rejections to TypeError:
       // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
       // We use bluebird convention for Error, message, and .cause property
-      truthyReason = new Error(reason + '');
+      truthyReason = new Error(`${reason}`);
       truthyReason.cause = reason;
     }
 

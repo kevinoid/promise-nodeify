@@ -5,20 +5,20 @@
 
 'use strict';
 
-var BBPromise = require('bluebird').Promise;
-var assert = require('assert');
-var awaitGlobalException = require('../test-lib/await-global-exception');
-var promiseFinally = require('promise-finally').default;
-var promiseNodeify = require('..');
+const BBPromise = require('bluebird').Promise;
+const assert = require('assert');
+const awaitGlobalException = require('../test-lib/await-global-exception');
+const promiseFinally = require('promise-finally').default;
+const promiseNodeify = require('..');
 
 // eslint-disable-next-line no-undef
-var PPromise = typeof Promise !== 'undefined' ? Promise : BBPromise;
+const PPromise = typeof Promise !== 'undefined' ? Promise : BBPromise;
 
-describe('promiseNodeify', function() {
-  describe('when called with a function', function() {
-    it('passes (null, value) to callback on resolution', function(done) {
-      var value = {};
-      var promise = PPromise.resolve(value);
+describe('promiseNodeify', () => {
+  describe('when called with a function', () => {
+    it('passes (null, value) to callback on resolution', (done) => {
+      const value = {};
+      const promise = PPromise.resolve(value);
       promiseNodeify(promise, function(err, result) {
         assert.strictEqual(arguments.length, 2);
         assert.strictEqual(err, null);
@@ -27,10 +27,10 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('passes undefined value to callback on resolution', function(done) {
-      var value;
-      var promise = PPromise.resolve(value);
-      promiseNodeify(promise, function(err, result) {
+    it('passes undefined value to callback on resolution', (done) => {
+      let value;
+      const promise = PPromise.resolve(value);
+      promiseNodeify(promise, (err, result) => {
         // Note:  arguments.length is unspecified
         // Although it is currently 2, that may change.  Don't depend on it.
         assert.strictEqual(err, null);
@@ -39,9 +39,9 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('passes Error cause to callback on rejection', function(done) {
-      var cause = new Error();
-      var promise = PPromise.reject(cause);
+    it('passes Error cause to callback on rejection', (done) => {
+      const cause = new Error();
+      const promise = PPromise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert.strictEqual(err, cause);
@@ -49,9 +49,9 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('passes truthy cause to callback on rejection', function(done) {
-      var cause = true;
-      var promise = PPromise.reject(cause);
+    it('passes truthy cause to callback on rejection', (done) => {
+      const cause = true;
+      const promise = PPromise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert.strictEqual(err, cause);
@@ -59,9 +59,9 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('passes Error with falsey .cause on rejection', function(done) {
-      var cause = 0;
-      var promise = PPromise.reject(cause);
+    it('passes Error with falsey .cause on rejection', (done) => {
+      const cause = 0;
+      const promise = PPromise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert(err instanceof Error);
@@ -72,40 +72,40 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('returns undefined', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
-      var retVal = promiseNodeify(promise, function() {});
+    it('returns undefined', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
+      const retVal = promiseNodeify(promise, () => {});
       assert.strictEqual(retVal, undefined);
     });
 
-    it('ignores callback return value', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
-      promiseNodeify(promise, function() { return true; });
-      return promise.then(function(result) {
+    it('ignores callback return value', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
+      promiseNodeify(promise, () => true);
+      return promise.then((result) => {
         assert.strictEqual(result, value);
       });
     });
 
-    it('callback exception causes uncaughtException', function() {
-      var value = {};
-      var errCallback = new Error('Test callback error');
-      var promise = PPromise.resolve(value);
+    it('callback exception causes uncaughtException', () => {
+      const value = {};
+      const errCallback = new Error('Test callback error');
+      const promise = PPromise.resolve(value);
 
-      var unhandledRejection;
+      let unhandledRejection;
       function onUnhandledRejection(reason) {
         unhandledRejection = reason;
       }
       process.once('unhandledRejection', onUnhandledRejection);
 
-      promiseNodeify(promise, function() { throw errCallback; });
+      promiseNodeify(promise, () => { throw errCallback; });
 
       return promiseFinally(
-        awaitGlobalException(function(err) {
+        awaitGlobalException((err) => {
           assert.strictEqual(err, errCallback);
         }),
-        function() {
+        () => {
           process.removeListener('unhandledRejection', onUnhandledRejection);
           return unhandledRejection && PPromise.reject(unhandledRejection);
         }
@@ -113,62 +113,62 @@ describe('promiseNodeify', function() {
     });
   });
 
-  describe('when called with a non-function', function() {
-    it('returns a Promise which resolves with the same value', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
-      var promise2 = promiseNodeify(promise, null);
-      return promise2.then(function(result) {
+  describe('when called with a non-function', () => {
+    it('returns a Promise which resolves with the same value', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
+      const promise2 = promiseNodeify(promise, null);
+      return promise2.then((result) => {
         assert.strictEqual(result, value);
       });
     });
 
-    it('returns a Promise which rejects with the same cause', function() {
-      var cause = new Error();
-      var promise = PPromise.reject(cause);
-      var promise2 = promiseNodeify(promise, null);
+    it('returns a Promise which rejects with the same cause', () => {
+      const cause = new Error();
+      const promise = PPromise.reject(cause);
+      const promise2 = promiseNodeify(promise, null);
       return promise2.then(
-        function() {
+        () => {
           assert(false, 'Promise should be rejected');
         },
-        function(err) {
+        (err) => {
           assert.strictEqual(err, cause);
         }
       );
     });
   });
 
-  describe('.delegated', function() {
-    it('forwards to .nodeify method on promise', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
-      var nodeifyArg = {};
-      var nodeifyRetVal = {};
+  describe('.delegated', () => {
+    it('forwards to .nodeify method on promise', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
+      const nodeifyArg = {};
+      const nodeifyRetVal = {};
       promise.nodeify = function(arg) {
         assert.strictEqual(arg, nodeifyArg);
         return nodeifyRetVal;
       };
-      var retVal = promiseNodeify.delegated(promise, nodeifyArg);
+      const retVal = promiseNodeify.delegated(promise, nodeifyArg);
       assert.strictEqual(retVal, nodeifyRetVal);
     });
 
-    it('forwards to inherited .nodeify method on promise', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
-      var nodeifyArg = {};
-      var nodeifyRetVal = {};
+    it('forwards to inherited .nodeify method on promise', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
+      const nodeifyArg = {};
+      const nodeifyRetVal = {};
       promise.nodeify = function(arg) {
         assert.strictEqual(arg, nodeifyArg);
         return nodeifyRetVal;
       };
-      var promise2 = Object.create(promise);
-      var retVal = promiseNodeify.delegated(promise2, nodeifyArg);
+      const promise2 = Object.create(promise);
+      const retVal = promiseNodeify.delegated(promise2, nodeifyArg);
       assert.strictEqual(retVal, nodeifyRetVal);
     });
 
-    it('ignores non-function .nodeify on promise', function(done) {
-      var value = {};
-      var promise = PPromise.resolve(value);
+    it('ignores non-function .nodeify on promise', (done) => {
+      const value = {};
+      const promise = PPromise.resolve(value);
       promise.nodeify = true;
       promiseNodeify.delegated(promise, function(err, result) {
         assert.strictEqual(arguments.length, 2);
@@ -179,10 +179,10 @@ describe('promiseNodeify', function() {
     });
   });
 
-  describe('.nodeifyThis', function() {
-    it('can be used as a method on a promise', function(done) {
-      var value = {};
-      var promise = PPromise.resolve(value);
+  describe('.nodeifyThis', () => {
+    it('can be used as a method on a promise', (done) => {
+      const value = {};
+      const promise = PPromise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
       promise.nodeify(function(err, result) {
         assert.strictEqual(arguments.length, 2);
@@ -192,20 +192,20 @@ describe('promiseNodeify', function() {
       });
     });
 
-    it('when given a function, returns undefined', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
+    it('when given a function, returns undefined', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
-      var retVal = promise.nodeify(function() {});
+      const retVal = promise.nodeify(() => {});
       assert.strictEqual(retVal, undefined);
     });
 
-    it('when not given a function, returns a Promise', function() {
-      var value = {};
-      var promise = PPromise.resolve(value);
+    it('when not given a function, returns a Promise', () => {
+      const value = {};
+      const promise = PPromise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
-      var promise2 = promise.nodeify(null);
-      return promise2.then(function(result) {
+      const promise2 = promise.nodeify(null);
+      return promise2.then((result) => {
         assert.strictEqual(result, value);
       });
     });

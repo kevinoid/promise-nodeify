@@ -5,22 +5,22 @@
 
 'use strict';
 
-var gulp = require('gulp');
-var pump = require('pump');
-var rename = require('gulp-rename');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var umd = require('gulp-umd');
+const gulp = require('gulp');
+const pump = require('pump');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const umd = require('gulp-umd');
 
-var DIST_DIR = 'dist';
+const DIST_DIR = 'dist';
 
-gulp.task('default', function(done) {
+gulp.task('default', (done) => {
   pump(
     gulp.src('index.js'),
     rename({basename: 'promise-nodeify'}),
     umd({
-      exports: function() { return 'promiseNodeify'; },
-      namespace: function() { return 'promiseNodeify'; }
+      exports() { return 'promiseNodeify'; },
+      namespace() { return 'promiseNodeify'; }
     }),
     gulp.dest(DIST_DIR),
     sourcemaps.init(),
