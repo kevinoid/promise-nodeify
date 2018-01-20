@@ -1,0 +1,6 @@
+# ESLint configuration (benchmark subproject-specific)
+
+rules:
+  # Disable import resolution checking since installing benchmark dependencies
+  # for linting is wasteful, particularly on CI.
+  import/no-unresolved: 0
