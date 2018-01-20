@@ -5,6 +5,7 @@
 
 'use strict';
 
+const babel = require('gulp-babel');
 const gulp = require('gulp');
 const pump = require('pump');
 const rename = require('gulp-rename');
@@ -18,6 +19,7 @@ gulp.task('default', (done) => {
   pump(
     gulp.src('index.js'),
     rename({basename: 'promise-nodeify'}),
+    babel(),
     umd({
       exports() { return 'promiseNodeify'; },
       namespace() { return 'promiseNodeify'; }
