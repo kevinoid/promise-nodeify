@@ -17,11 +17,10 @@
 /** Function which will run with a clear stack as soon as possible.
  * @private
  */
-var later =
-  typeof process !== 'undefined' &&
-    typeof process.nextTick === 'function' ? process.nextTick :
-  typeof setImmediate === 'function' ? setImmediate :
-  setTimeout;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var later = typeof process !== 'undefined' && typeof process.nextTick === 'function' ? process.nextTick : typeof setImmediate === 'function' ? setImmediate : setTimeout;
 
 /** Invokes callback and ensures any exceptions thrown are uncaught.
  * @private
@@ -41,7 +40,9 @@ function doCallback(callback, reason, value) {
       callback(null, value);
     }
   } catch (err) {
-    later(function() { throw err; });
+    later(function () {
+      throw err;
+    });
   }
 }
 
@@ -83,7 +84,7 @@ function promiseNodeify(promise, callback) {
       // Note:  unthenify converts falsey rejections to TypeError:
       // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
       // We use bluebird convention for Error, message, and .cause property
-      truthyReason = new Error(reason + '');
+      truthyReason = new Error('' + reason);
       truthyReason.cause = reason;
     }
 
@@ -143,9 +144,8 @@ promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
 };
 
 // Note: This file is used directly for Node and wrapped in UMD for browser
-if (typeof exports === 'object') {
+if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
   module.exports = promiseNodeify;
 }
-
 return promiseNodeify;
 }));
