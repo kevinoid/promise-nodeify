@@ -1,5 +1,13 @@
 # Change Log
 
+## [2.0.0](https://github.com/kevinoid/promise-nodeify/tree/2.0.0) (2018-01-22)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.1...2.0.0)
+
+- **Breaking** Require Node.js 4 or later.
+- Update code to use ES2015 conventions (`const`, `=>`, etc.).
+- Use babel for creating client-side ES5 distributable build.
+- Update `devDependencies` to latest versions.
+
 ## [1.0.1](https://github.com/kevinoid/promise-nodeify/tree/1.0.1) (2017-05-20)
 [Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.0...1.0.1)
 
