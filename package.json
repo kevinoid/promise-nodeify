@@ -55,7 +55,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
-    "gulp-umd": "^1.0.0",
+    "gulp-umd": "^2.0.0",
     "istanbul": "^0.4.1",
     "jsdoc": "^3.4.1",
     "mocha": "^5.0.0",
