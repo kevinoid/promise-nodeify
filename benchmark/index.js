@@ -19,7 +19,7 @@ const NPromise = typeof Promise !== 'undefined' ? Promise : undefined;
 
 const Benchmark = require('benchmark');
 const CliTable = require('cli-table');
-const Stats = require('fast-stats').Stats;
+const {Stats} = require('fast-stats');
 const assert = require('assert');
 const colors = require('colors/safe');
 
@@ -156,16 +156,16 @@ function defineSuites() {
         `${nodeifyFunction.name} with ${promiseType.name}`,
         {
           defer: true,
-          fn: nodeifyFunction.isMethod ?
-            'promise.nodeify(function() { deferred.resolve(); });' :
-            `${nodeifyName}(promise, function() { deferred.resolve(); });`,
+          fn: nodeifyFunction.isMethod
+            ? 'promise.nodeify(function() { deferred.resolve(); });'
+            : `${nodeifyName}(promise, function() { deferred.resolve(); });`,
           // Expose deferred on benchmark so we can recover from errors.
           // See https://github.com/bestiejs/benchmark.js/issues/123
           // eslint-disable-next-line prefer-template
-          setup: 'this.benchmark._original.deferred = deferred;\n' +
-            `var promise = ${promiseName}.resolve(true);\n` +
-            (nodeifyFunction.isMethod ?
-              `promise.nodeify = ${nodeifyName};` : '')
+          setup: 'this.benchmark._original.deferred = deferred;\n'
+            + `var promise = ${promiseName}.resolve(true);\n`
+            + (nodeifyFunction.isMethod
+              ? `promise.nodeify = ${nodeifyName};` : '')
         }
       );
 
@@ -173,15 +173,15 @@ function defineSuites() {
         `${nodeifyFunction.name} with ${promiseType.name}`,
         {
           defer: true,
-          fn: nodeifyFunction.isMethod ?
-            'promise.nodeify(function() { deferred.resolve(); });' :
-            `${nodeifyName}(promise, function() { deferred.resolve(); });`,
+          fn: nodeifyFunction.isMethod
+            ? 'promise.nodeify(function() { deferred.resolve(); });'
+            : `${nodeifyName}(promise, function() { deferred.resolve(); });`,
           // Expose deferred on benchmark so we can recover from errors.
           // See https://github.com/bestiejs/benchmark.js/issues/123
-          setup: `${'this.benchmark._original.deferred = deferred;\n' +
-            'var promise = '}${promiseName}.reject(new Error());\n${
-            nodeifyFunction.isMethod ?
-              `promise.nodeify = ${nodeifyName};` : ''}`
+          setup: `${'this.benchmark._original.deferred = deferred;\n'
+            + 'var promise = '}${promiseName}.reject(new Error());\n${
+            nodeifyFunction.isMethod
+              ? `promise.nodeify = ${nodeifyName};` : ''}`
         }
       );
     });
@@ -200,8 +200,8 @@ function formatResultsTxt(suite, useColor) {
   const numCols = colNames.length;
   assert.strictEqual(suite.length, numRows * numCols);
 
-  let tableValues =
-    suite.map(
+  let tableValues
+    = suite.map(
       (bench) => (bench.error ? bench.error.name : bench.hz.toLocaleString())
     );
   if (useColor) {
@@ -214,10 +214,10 @@ function formatResultsTxt(suite, useColor) {
     const lowerQuartile = stats.percentile(25);
     const upperQuartile = stats.percentile(75);
 
-    const tableColors = suite.map((bench) => (bench.error ? colors.red :
-      bench.hz < lowerQuartile ? colors.red :
-        bench.hz > upperQuartile ? colors.green :
-          colors.yellow));
+    const tableColors = suite.map((bench) => (bench.error ? colors.red
+      : bench.hz < lowerQuartile ? colors.red
+        : bench.hz > upperQuartile ? colors.green
+          : colors.yellow));
     tableValues = tableValues.map((value, i) => tableColors[i](value));
   }
 
@@ -289,13 +289,13 @@ function runSuite(suite, options, cb) {
     bench.on('complete', benchmarkComplete);
   });
 
-  function done(err, value) {
+  function done(...args) {
     suite.forEach((bench) => {
       bench.off('start', benchmarkStart);
       bench.off('complete', benchmarkComplete);
     });
     deleteGlobals();
-    return cb.apply(this, arguments);
+    return cb.apply(this, args);
   }
 
   suite

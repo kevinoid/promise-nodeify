@@ -8,11 +8,11 @@
 /** Function which will run with a clear stack as soon as possible.
  * @private
  */
-const later =
-  typeof process !== 'undefined' &&
-    typeof process.nextTick === 'function' ? process.nextTick :
-    typeof setImmediate === 'function' ? setImmediate :
-      setTimeout;
+const later
+  = typeof process !== 'undefined'
+    && typeof process.nextTick === 'function' ? process.nextTick
+    : typeof setImmediate === 'function' ? setImmediate
+      : setTimeout;
 
 /** Invokes callback and ensures any exceptions thrown are uncaught.
  * @private
