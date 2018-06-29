@@ -27,12 +27,12 @@ if (typeof process !== 'undefined') {
     });
   } else {
     const oldOHR = window.onunhandledrejection;
-    window.onunhandledrejection = function(evt) {
-      if (typeof oldOHR === 'function') { oldOHR.apply(this, arguments); }
+    window.onunhandledrejection = function(evt, ...args) {
+      if (typeof oldOHR === 'function') { oldOHR.apply(this, args); }
       throw evt.detail.reason;
     };
   }
-} else if (typeof console !== 'undefined' &&
-    typeof (console.error || console.log) === 'function') {
+} else if (typeof console !== 'undefined'
+    && typeof (console.error || console.log) === 'function') {
   (console.error || console.log)('Unhandled rejections will be ignored!');
 }
