@@ -1,22 +1,29 @@
 # Change Log
 
-## [2.0.0](https://github.com/kevinoid/promise-nodeify/tree/2.0.0) (2018-01-22)
-[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.1...2.0.0)
+## [v3.0.0](https://github.com/kevinoid/promise-nodeify/tree/v3.0.0) (2018-06-29)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v2.0.0...v3.0.0)
+
+- **BREAKING** Drop support for Node < 6.
+- Dependency version updates.
+- Code style improvements.
+
+## [v2.0.0](https://github.com/kevinoid/promise-nodeify/tree/v2.0.0) (2018-01-22)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.1...v2.0.0)
 
 - **Breaking** Require Node.js 4 or later.
 - Update code to use ES2015 conventions (`const`, `=>`, etc.).
 - Use babel for creating client-side ES5 distributable build.
 - Update `devDependencies` to latest versions.
 
-## [1.0.1](https://github.com/kevinoid/promise-nodeify/tree/1.0.1) (2017-05-20)
-[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.0...1.0.1)
+## [v1.0.1](https://github.com/kevinoid/promise-nodeify/tree/v1.0.1) (2017-05-20)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v1.0.0...v1.0.1)
 
 - Update gulp-uglify to the latest version 🚀 [\#4](https://github.com/kevinoid/promise-nodeify/pull/4) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
 - Update gulp-sourcemaps to the latest version 🚀 [\#3](https://github.com/kevinoid/promise-nodeify/pull/3) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
 - Update codecov to the latest version 🚀 [\#2](https://github.com/kevinoid/promise-nodeify/pull/2) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
 
-## [1.0.0](https://github.com/kevinoid/promise-nodeify/tree/1.0.0) (2017-02-24)
-[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v0.1.0...1.0.0)
+## [v1.0.0](https://github.com/kevinoid/promise-nodeify/tree/v1.0.0) (2017-02-24)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v0.1.0...v1.0.0)
 
 - **No API Changes**  Bump to 1.0 is declaration of stability rather than an
   indication of changes.
