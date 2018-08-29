@@ -74,7 +74,7 @@ function promiseNodeify(promise, callback) {
       // Note:  unthenify converts falsey rejections to TypeError:
       // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
       // We use bluebird convention for Error, message, and .cause property
-      truthyReason = new Error(`${reason}`);
+      truthyReason = new Error(String(reason));
       truthyReason.cause = reason;
     }
 
