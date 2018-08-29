@@ -8,23 +8,19 @@
   }
 }(this, function() {
 /** @module promise-nodeify
- * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
+ * @copyright Copyright 2016-2018 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
-
 'use strict';
-
 /** Function which will run with a clear stack as soon as possible.
  * @private
  */
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var later = typeof process !== 'undefined' && typeof process.nextTick === 'function' ? process.nextTick : typeof setImmediate === 'function' ? setImmediate : setTimeout;
-
 /** Invokes callback and ensures any exceptions thrown are uncaught.
  * @private
  */
+
 function doCallback(callback, reason, value) {
   // Note:  Could delay callback call until later, as When.js does, but this
   // loses the stack (particularly for bluebird long traces) and causes
@@ -45,7 +41,6 @@ function doCallback(callback, reason, value) {
     });
   }
 }
-
 /** Calls a node-style callback when a Promise is resolved or rejected.
  *
  * This function provides the behavior of
@@ -70,6 +65,8 @@ function doCallback(callback, reason, value) {
  * but is not guaranteed to remain so).
  * @alias module:promise-nodeify
  */
+
+
 function promiseNodeify(promise, callback) {
   if (typeof callback !== 'function') {
     return promise;
@@ -80,11 +77,12 @@ function promiseNodeify(promise, callback) {
     // (we also rely on truthyness for arguments.length in doCallback)
     // Convert it to something truthy
     var truthyReason = reason;
+
     if (!truthyReason) {
       // Note:  unthenify converts falsey rejections to TypeError:
       // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
       // We use bluebird convention for Error, message, and .cause property
-      truthyReason = new Error('' + reason);
+      truthyReason = new Error(String(reason));
       truthyReason.cause = reason;
     }
 
@@ -98,7 +96,6 @@ function promiseNodeify(promise, callback) {
   promise.then(onResolved, onRejected);
   return undefined;
 }
-
 /** A version of {@link promiseNodeify} which delegates to the
  * <code>.nodeify</code> method on <code>promise</code>, if present.
  *
@@ -120,6 +117,8 @@ function promiseNodeify(promise, callback) {
  * <code>promise</code> argument when callback is falsey and either
  * <code>promise</code> or <code>undefined</code> otherwise.
  */
+
+
 promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
   if (typeof promise.nodeify === 'function') {
     return promise.nodeify(callback);
@@ -127,7 +126,6 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
 
   return promiseNodeify(promise, callback);
 };
-
 /** Polyfill for <code>Promise.prototype.nodeify</code> which behaves like
  * {@link promiseNodeify}.
  *
@@ -139,12 +137,14 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
  * but is not guaranteed to remain so).
  */
+
+
 promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
   return promiseNodeify(this, callback);
-};
+}; // Note: This file is used directly for Node and wrapped in UMD for browser
 
-// Note: This file is used directly for Node and wrapped in UMD for browser
-if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+
+if (typeof exports === 'object') {
   module.exports = promiseNodeify;
 }
 return promiseNodeify;
