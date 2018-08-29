@@ -1,5 +1,5 @@
 /** @module promise-nodeify
- * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
+ * @copyright Copyright 2016-2018 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
 
