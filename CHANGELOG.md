@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.0.1](https://github.com/kevinoid/promise-nodeify/tree/v3.0.1) (2018-08-29)
+[Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v3.0.0...v3.0.1)
+
+- Update Babel-related `devDependencies` to the latest version
+- Remove unnecessary Babel build dependencies.
+- Update `nodecat` `devDependency` to the latest version 🚀 [\#24](https://github.com/kevinoid/promise-nodeify/pull/24)
+
 ## [v3.0.0](https://github.com/kevinoid/promise-nodeify/tree/v3.0.0) (2018-06-29)
 [Full Changelog](https://github.com/kevinoid/promise-nodeify/compare/v2.0.0...v3.0.0)
 
