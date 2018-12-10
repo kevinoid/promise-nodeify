@@ -52,7 +52,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "greenkeeper-lockfile": "^1.15.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.4",
