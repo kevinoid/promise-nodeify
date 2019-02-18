@@ -3,6 +3,7 @@
 .eslintrc*
 .npmignore
 .travis.yml
+/.githooks/
 /benchmark/
 /coverage/
 /dist/
