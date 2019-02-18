@@ -200,8 +200,8 @@ function formatResultsTxt(suite, useColor) {
   const numCols = colNames.length;
   assert.strictEqual(suite.length, numRows * numCols);
 
-  let tableValues
-    = suite.map(
+  let tableValues =
+    suite.map(
       (bench) => (bench.error ? bench.error.name : bench.hz.toLocaleString())
     );
   if (useColor) {
