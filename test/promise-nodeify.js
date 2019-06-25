@@ -7,8 +7,9 @@
 
 const BBPromise = require('bluebird').Promise;
 const assert = require('assert');
-const awaitGlobalException = require('../test-lib/await-global-exception');
 const promiseFinally = require('promise-finally').default;
+
+const awaitGlobalException = require('../test-lib/await-global-exception');
 const promiseNodeify = require('..');
 
 // eslint-disable-next-line no-undef
