@@ -6,9 +6,6 @@
 
 'use strict';
 
-// Importing es-nodeify requires assigning to the Promise global
-/* global Promise:true */
-
 // For convenience, it's easier to require modules inline in this file.
 /* eslint-disable global-require */
 
@@ -39,11 +36,13 @@ const NODEIFY_FUNCTIONS = {
     name: 'es-nodeify',
     isMethod: true,
     nodeify: (function() {
+      // eslint-disable-next-line no-global-assign
       Promise = function() {};
       try {
         require('es-nodeify');
         return Promise.prototype.nodeify;
       } finally {
+        // eslint-disable-next-line no-global-assign
         Promise = NPromise;
       }
     }()),
