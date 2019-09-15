@@ -12,6 +12,9 @@
 // For convenience, it's easier to require modules inline in this file.
 /* eslint-disable global-require */
 
+// The modules tested in this file are installed from benchmark/package.json
+/* eslint-disable node/no-missing-require */
+
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required
 // native-promise-only will overwrite if falsey when required
