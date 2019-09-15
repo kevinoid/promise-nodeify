@@ -12,5 +12,16 @@
         "test/**"
       ]
     }]
-  }
+  },
+
+  "overrides": [
+    {
+      "files": [
+        "benchmark/index.js"
+      ],
+      "rules": {
+        "node/shebang": "off"
+      }
+    }
+  ]
 }
