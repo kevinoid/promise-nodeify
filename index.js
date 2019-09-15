@@ -85,6 +85,7 @@ function promiseNodeify(promise, callback) {
     doCallback(callback, null, value);
   }
 
+  // eslint-disable-next-line promise/catch-or-return
   promise.then(onResolved, onRejected);
   return undefined;
 }
