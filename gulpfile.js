@@ -18,18 +18,18 @@ const DIST_DIR = 'dist';
 gulp.task('default', (done) => {
   pump(
     gulp.src('index.js'),
-    rename({basename: 'promise-nodeify'}),
+    rename({ basename: 'promise-nodeify' }),
     babel(),
     umd({
       exports() { return 'promiseNodeify'; },
-      namespace() { return 'promiseNodeify'; }
+      namespace() { return 'promiseNodeify'; },
     }),
     gulp.dest(DIST_DIR),
     sourcemaps.init(),
-    uglify({output: {comments: 'some'}}),
-    rename({extname: '.min.js'}),
+    uglify({ output: { comments: 'some' } }),
+    rename({ extname: '.min.js' }),
     sourcemaps.write('.'),
     gulp.dest(DIST_DIR),
-    done
+    done,
   );
 });

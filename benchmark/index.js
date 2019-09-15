@@ -19,7 +19,7 @@ const NPromise = typeof Promise !== 'undefined' ? Promise : undefined;
 
 const Benchmark = require('benchmark');
 const CliTable = require('cli-table');
-const {Stats} = require('fast-stats');
+const { Stats } = require('fast-stats');
 const assert = require('assert');
 const colors = require('colors/safe');
 
@@ -30,7 +30,7 @@ const NODEIFY_FUNCTIONS = {
   bluebirdNodeify: {
     name: 'bluebird#nodeify',
     isMethod: true,
-    nodeify: require('bluebird').Promise.prototype.nodeify
+    nodeify: require('bluebird').Promise.prototype.nodeify,
   },
   esNodeify: {
     name: 'es-nodeify',
@@ -43,22 +43,22 @@ const NODEIFY_FUNCTIONS = {
       } finally {
         Promise = NPromise;
       }
-    }())
+    }()),
   },
   nodeify: {
     name: 'nodeify',
     isMethod: false,
-    nodeify: require('nodeify')
+    nodeify: require('nodeify'),
   },
   promiseNodeify: {
     name: 'promiseNodeify',
     isMethod: false,
-    nodeify: require('..')
+    nodeify: require('..'),
   },
   thenNodeify: {
     name: 'then#nodeify',
     isMethod: true,
-    nodeify: require('promise').prototype.nodeify
+    nodeify: require('promise').prototype.nodeify,
   },
   unthenify: {
     name: 'unthenify',
@@ -68,13 +68,13 @@ const NODEIFY_FUNCTIONS = {
       return function unthenifyNodeify(promise, callback) {
         return unthenify(() => promise)(callback);
       };
-    }())
+    }()),
   },
   whenNode: {
     name: 'when.bindCallback',
     isMethod: false,
-    nodeify: require('when/node').bindCallback
-  }
+    nodeify: require('when/node').bindCallback,
+  },
 };
 
 /** Promise types to benchmark with human-readable name, indexed by global name
@@ -82,37 +82,37 @@ const NODEIFY_FUNCTIONS = {
 const PROMISE_TYPES = {
   BBPromise: {
     name: 'bluebird',
-    Promise: require('bluebird').Promise
+    Promise: require('bluebird').Promise,
   },
   NPOPromise: {
     name: 'npo',
-    Promise: require('native-promise-only')
+    Promise: require('native-promise-only'),
   },
   PPromise: {
     name: 'pinkie',
-    Promise: require('pinkie-promise')
+    Promise: require('pinkie-promise'),
   },
   QPromise: {
     name: 'q',
-    Promise: require('q')
+    Promise: require('q'),
   },
   RPromise: {
     name: 'rsvp',
-    Promise: require('rsvp').Promise
+    Promise: require('rsvp').Promise,
   },
   TPromise: {
     name: 'then',
-    Promise: require('promise')
+    Promise: require('promise'),
   },
   WPromise: {
     name: 'when',
-    Promise: require('when')
-  }
+    Promise: require('when'),
+  },
 };
 if (NPromise) {
   PROMISE_TYPES.NPromise = {
     name: 'native',
-    Promise: NPromise
+    Promise: NPromise,
   };
 }
 
@@ -165,8 +165,8 @@ function defineSuites() {
           setup: 'this.benchmark._original.deferred = deferred;\n'
             + `var promise = ${promiseName}.resolve(true);\n`
             + (nodeifyFunction.isMethod
-              ? `promise.nodeify = ${nodeifyName};` : '')
-        }
+              ? `promise.nodeify = ${nodeifyName};` : ''),
+        },
       );
 
       rejectedSuite.add(
@@ -181,8 +181,8 @@ function defineSuites() {
           setup: `${'this.benchmark._original.deferred = deferred;\n'
             + 'var promise = '}${promiseName}.reject(new Error());\n${
             nodeifyFunction.isMethod
-              ? `promise.nodeify = ${nodeifyName};` : ''}`
-        }
+              ? `promise.nodeify = ${nodeifyName};` : ''}`,
+        },
       );
     });
   });
@@ -202,7 +202,7 @@ function formatResultsTxt(suite, useColor) {
 
   let tableValues =
     suite.map(
-      (bench) => (bench.error ? bench.error.name : bench.hz.toLocaleString())
+      (bench) => (bench.error ? bench.error.name : bench.hz.toLocaleString()),
     );
   if (useColor) {
     const numberValues = suite
@@ -237,12 +237,12 @@ function formatResultsTxt(suite, useColor) {
       top: '',
       'top-left': '',
       'top-mid': '',
-      'top-right': ''
+      'top-right': '',
     },
     head: ['ops/sec'].concat(colNames),
     style: {
-      head: useColor ? ['white', 'bold'] : []
-    }
+      head: useColor ? ['white', 'bold'] : [],
+    },
   });
   if (!useColor) {
     const headMarkers = colNames.map((name) => {
@@ -306,7 +306,7 @@ function runSuite(suite, options, cb) {
       const bench = evt.target;
       // Workaround for https://github.com/bestiejs/benchmark.js/pull/122
       options.out.write(
-        `${bench.error ? `${bench.name}: ${bench.error}` : String(bench)}\n`
+        `${bench.error ? `${bench.name}: ${bench.error}` : String(bench)}\n`,
       );
     })
     .on('complete', function() {
@@ -352,7 +352,7 @@ if (require.main === module) {
   const mainOptions = {
     in: process.stdin,
     out: process.stdout,
-    err: process.stderr
+    err: process.stderr,
   };
   nodeifyBenchmark(process.argv, mainOptions, (err, code) => {
     if (err) {

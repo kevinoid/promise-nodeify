@@ -109,7 +109,7 @@ describe('promiseNodeify', () => {
         () => {
           process.removeListener('unhandledRejection', onUnhandledRejection);
           return unhandledRejection && PPromise.reject(unhandledRejection);
-        }
+        },
       );
     });
   });
@@ -134,7 +134,7 @@ describe('promiseNodeify', () => {
         },
         (err) => {
           assert.strictEqual(err, cause);
-        }
+        },
       );
     });
   });
