@@ -5,21 +5,17 @@
 
 'use strict';
 
-const BBPromise = require('bluebird').Promise;
 const assert = require('assert');
 const promiseFinally = require('promise-finally').default;
 
 const awaitGlobalException = require('../test-lib/await-global-exception');
 const promiseNodeify = require('..');
 
-// eslint-disable-next-line no-undef
-const PPromise = typeof Promise !== 'undefined' ? Promise : BBPromise;
-
 describe('promiseNodeify', () => {
   describe('when called with a function', () => {
     it('passes (null, value) to callback on resolution', (done) => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promiseNodeify(promise, function(err, result) {
         assert.strictEqual(arguments.length, 2);
         assert.strictEqual(err, null);
@@ -30,7 +26,7 @@ describe('promiseNodeify', () => {
 
     it('passes undefined value to callback on resolution', (done) => {
       let value;
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promiseNodeify(promise, (err, result) => {
         // Note:  arguments.length is unspecified
         // Although it is currently 2, that may change.  Don't depend on it.
@@ -42,7 +38,7 @@ describe('promiseNodeify', () => {
 
     it('passes Error cause to callback on rejection', (done) => {
       const cause = new Error();
-      const promise = PPromise.reject(cause);
+      const promise = Promise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert.strictEqual(err, cause);
@@ -52,7 +48,7 @@ describe('promiseNodeify', () => {
 
     it('passes truthy cause to callback on rejection', (done) => {
       const cause = true;
-      const promise = PPromise.reject(cause);
+      const promise = Promise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert.strictEqual(err, cause);
@@ -62,7 +58,7 @@ describe('promiseNodeify', () => {
 
     it('passes Error with falsey .cause on rejection', (done) => {
       const cause = 0;
-      const promise = PPromise.reject(cause);
+      const promise = Promise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
         assert(err instanceof Error);
@@ -75,14 +71,14 @@ describe('promiseNodeify', () => {
 
     it('returns undefined', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       const retVal = promiseNodeify(promise, () => {});
       assert.strictEqual(retVal, undefined);
     });
 
     it('ignores callback return value', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promiseNodeify(promise, () => true);
       return promise.then((result) => {
         assert.strictEqual(result, value);
@@ -92,7 +88,7 @@ describe('promiseNodeify', () => {
     it('callback exception causes uncaughtException', () => {
       const value = {};
       const errCallback = new Error('Test callback error');
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
 
       let unhandledRejection;
       function onUnhandledRejection(reason) {
@@ -108,7 +104,7 @@ describe('promiseNodeify', () => {
         }),
         () => {
           process.removeListener('unhandledRejection', onUnhandledRejection);
-          return unhandledRejection && PPromise.reject(unhandledRejection);
+          return unhandledRejection && Promise.reject(unhandledRejection);
         },
       );
     });
@@ -117,7 +113,7 @@ describe('promiseNodeify', () => {
   describe('when called with a non-function', () => {
     it('returns a Promise which resolves with the same value', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       const promise2 = promiseNodeify(promise, null);
       return promise2.then((result) => {
         assert.strictEqual(result, value);
@@ -126,7 +122,7 @@ describe('promiseNodeify', () => {
 
     it('returns a Promise which rejects with the same cause', () => {
       const cause = new Error();
-      const promise = PPromise.reject(cause);
+      const promise = Promise.reject(cause);
       const promise2 = promiseNodeify(promise, null);
       return promise2.then(
         () => {
@@ -142,7 +138,7 @@ describe('promiseNodeify', () => {
   describe('.delegated', () => {
     it('forwards to .nodeify method on promise', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       const nodeifyArg = {};
       const nodeifyRetVal = {};
       promise.nodeify = function(arg) {
@@ -155,7 +151,7 @@ describe('promiseNodeify', () => {
 
     it('forwards to inherited .nodeify method on promise', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       const nodeifyArg = {};
       const nodeifyRetVal = {};
       promise.nodeify = function(arg) {
@@ -169,7 +165,7 @@ describe('promiseNodeify', () => {
 
     it('ignores non-function .nodeify on promise', (done) => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promise.nodeify = true;
       promiseNodeify.delegated(promise, function(err, result) {
         assert.strictEqual(arguments.length, 2);
@@ -183,7 +179,7 @@ describe('promiseNodeify', () => {
   describe('.nodeifyThis', () => {
     it('can be used as a method on a promise', (done) => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
       promise.nodeify(function(err, result) {
         assert.strictEqual(arguments.length, 2);
@@ -195,7 +191,7 @@ describe('promiseNodeify', () => {
 
     it('when given a function, returns undefined', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
       const retVal = promise.nodeify(() => {});
       assert.strictEqual(retVal, undefined);
@@ -203,7 +199,7 @@ describe('promiseNodeify', () => {
 
     it('when not given a function, returns a Promise', () => {
       const value = {};
-      const promise = PPromise.resolve(value);
+      const promise = Promise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
       const promise2 = promise.nodeify(null);
       return promise2.then((result) => {
