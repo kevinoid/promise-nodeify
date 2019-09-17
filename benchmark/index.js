@@ -263,6 +263,8 @@ function formatResultsTxt(suite, useColor) {
 
 function runSuite(suite, options, cb) {
   let currentBenchmark;
+  // FIXME: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/374
+  /* eslint-disable unicorn/consistent-function-scoping */
   function onBenchmarkError(err) {
     // Set the error property of the benchmark, as the internals would do
     currentBenchmark.error = err;
@@ -287,6 +289,7 @@ function runSuite(suite, options, cb) {
     process.removeListener('uncaughtException', onBenchmarkError);
     currentBenchmark = null;
   }
+  /* eslint-enable unicorn/consistent-function-scoping */
   suite.forEach((bench) => {
     bench.on('start', benchmarkStart);
     bench.on('complete', benchmarkComplete);

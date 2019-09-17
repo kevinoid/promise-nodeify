@@ -91,6 +91,8 @@ describe('promiseNodeify', () => {
       const promise = Promise.resolve(value);
 
       let unhandledRejection;
+      // FIXME: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/374
+      // eslint-disable-next-line unicorn/consistent-function-scoping
       function onUnhandledRejection(reason) {
         unhandledRejection = reason;
       }
