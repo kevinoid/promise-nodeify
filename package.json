@@ -42,7 +42,7 @@
     "version-deps": "npm install conventional-changelog-cli david depcheck git-branch-is npm-audit-resolver travis-status"
   },
   "dependencies": {
-    "yargs": "^14.0.0"
+    "yargs": "^15.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
