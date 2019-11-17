@@ -16,8 +16,10 @@
 
   "overrides": [
     {
+      // Executable scripts should have a shebang
       "files": [
-        "benchmark/index.js"
+        "benchmark/index.js",
+        "bin/*.js"
       ],
       "rules": {
         "node/shebang": "off"
