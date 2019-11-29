@@ -19,6 +19,7 @@ CHANGELOG.*
 TODO.*
 appveyor.yml
 audit-resolv.json
+audit-resolve.json
 bower.json
 gulpfile.js
 jsdoc*.conf.json
