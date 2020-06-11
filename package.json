@@ -63,7 +63,7 @@
     "gulp-umd": "^2.0.0",
     "istanbul": "^0.4.1",
     "jsdoc": "^3.6.0",
-    "mocha": "^7.0.0",
+    "mocha": "^8.0.1",
     "nodecat": "^2.0.0",
     "nyc": "^15.0.0",
     "promise-finally": "^3.0.0",
