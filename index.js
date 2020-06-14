@@ -31,6 +31,8 @@ function doCallback(callback, reason, value) {
     if (reason) {
       callback(reason);
     } else {
+      // Use null to preserve current API behavior.
+      // eslint-disable-next-line unicorn/no-null
       callback(null, value);
     }
   } catch (err) {
@@ -84,6 +86,8 @@ function promiseNodeify(promise, callback) {
   }
 
   function onResolved(value) {
+    // Use null to preserve current API behavior.
+    // eslint-disable-next-line unicorn/no-null
     doCallback(callback, null, value);
   }
 

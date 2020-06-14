@@ -9,9 +9,6 @@
 // For convenience, it's easier to require modules inline in this file.
 /* eslint-disable global-require */
 
-// The modules tested in this file are installed from benchmark/package.json
-/* eslint-disable node/no-missing-require */
-
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required
 // native-promise-only will overwrite if falsey when required
@@ -265,8 +262,6 @@ function formatResultsTxt(suite, useColor) {
 
 function runSuite(suite, options, cb) {
   let currentBenchmark;
-  // FIXME: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/374
-  /* eslint-disable unicorn/consistent-function-scoping */
   function onBenchmarkError(err) {
     // Set the error property of the benchmark, as the internals would do
     currentBenchmark.error = err;
@@ -287,9 +282,9 @@ function runSuite(suite, options, cb) {
   }
   function benchmarkComplete() {
     clearTimeout(benchmarkTimeout);
-    benchmarkTimeout = null;
+    benchmarkTimeout = undefined;
     process.removeListener('uncaughtException', onBenchmarkError);
-    currentBenchmark = null;
+    currentBenchmark = undefined;
   }
   /* eslint-enable unicorn/consistent-function-scoping */
   suite.forEach((bench) => {
@@ -318,7 +313,7 @@ function runSuite(suite, options, cb) {
       );
     })
     .on('complete', function() {
-      done(null, this);
+      done(undefined, this);
     });
 
   defineGlobals();
