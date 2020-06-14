@@ -18,7 +18,6 @@
     {
       // Executable scripts should have a shebang
       "files": [
-        "benchmark/index.js",
         "bin/*.js"
       ],
       "rules": {

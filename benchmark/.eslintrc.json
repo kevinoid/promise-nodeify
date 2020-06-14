@@ -1,0 +1,26 @@
+// ESLint configuration for benchmark subproject
+{
+  "extends": "../.eslintrc.json",
+
+  "rules": {
+    // Disable import resolution checking since installing benchmark
+    // dependencies for linting is wasteful, particularly on CI.
+    "import/no-unresolved": "off",
+
+    // Disable import resolution checking since installing benchmark
+    // dependencies for linting is wasteful, particularly on CI.
+    "node/no-missing-require": "off"
+  },
+
+  "overrides": [
+    {
+      // Executable scripts should have a shebang
+      "files": [
+        "index.js"
+      ],
+      "rules": {
+        "node/shebang": "off"
+      }
+    }
+  ]
+}
