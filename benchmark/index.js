@@ -121,6 +121,7 @@ if (NPromise) {
 
 /** Exposes nodeify functions and promise types as globals so that they can
  * be accessed in the benchmark code.
+ *
  * @private
  */
 function defineGlobals() {
@@ -134,6 +135,7 @@ function defineGlobals() {
 }
 
 /** Deletes the globals added by {@link defineGlobals}.
+ *
  * @private
  */
 function deleteGlobals() {

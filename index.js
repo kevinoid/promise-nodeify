@@ -6,6 +6,7 @@
 'use strict';
 
 /** Function which will run with a clear stack as soon as possible.
+ *
  * @private
  */
 const later =
@@ -15,6 +16,7 @@ const later =
       : setTimeout;
 
 /** Invokes callback and ensures any exceptions thrown are uncaught.
+ *
  * @private
  */
 function doCallback(callback, reason, value) {
@@ -47,14 +49,14 @@ function doCallback(callback, reason, value) {
  * <code>Promise.prototype.nodeify</code> (now
  * <code>Promise.prototype.asCallback</code>)} (without options).
  *
- * @ template ValueType
+ * @template ValueType
  * @param {!Promise<ValueType>} promise Promise to monitor.
  * @param {?function(*, ValueType=)=} callback Node-style callback to be
  * called when <code>promise</code> is resolved or rejected.  If
  * <code>promise</code> is rejected with a falsey value the first argument
  * will be an instance of <code>Error</code> with a <code>.cause</code>
  * property with the rejected value.
- * @return {Promise<ValueType>|undefined} <code>undefined</code> if
+ * @returns {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
  * but is not guaranteed to remain so).
@@ -103,10 +105,10 @@ function promiseNodeify(promise, callback) {
  * as an options object while then treats it as <code>this</code> for the
  * callback).
  *
- * @ template ValueType
+ * @template ValueType
  * @param {!Promise<ValueType>} promise Promise to monitor.
  * @param {?function(*, ValueType=)=} callback Node-style callback.
- * @return {Promise<ValueType>|undefined} Value returned by
+ * @returns {Promise<ValueType>|undefined} Value returned by
  * <code>.nodeify</code>.  Known implementations return the
  * <code>promise</code> argument when callback is falsey and either
  * <code>promise</code> or <code>undefined</code> otherwise.
@@ -122,10 +124,10 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
 /** Polyfill for <code>Promise.prototype.nodeify</code> which behaves like
  * {@link promiseNodeify}.
  *
- * @ template ValueType
+ * @template ValueType
  * @this {!Promise<ValueType>}
  * @param {?function(*, ValueType=)=} callback Node-style callback.
- * @return {Promise<ValueType>|undefined} <code>undefined</code> if
+ * @returns {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
  * which behaves like <code>promise</code> (currently is <code>promise</code>,
  * but is not guaranteed to remain so).
