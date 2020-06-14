@@ -6,7 +6,6 @@
 'use strict';
 
 const assert = require('assert');
-const promiseFinally = require('promise-finally').default;
 
 const awaitGlobalException = require('../test-lib/await-global-exception');
 const promiseNodeify = require('..');
@@ -98,15 +97,13 @@ describe('promiseNodeify', () => {
 
       promiseNodeify(promise, () => { throw errCallback; });
 
-      return promiseFinally(
-        awaitGlobalException((err) => {
-          assert.strictEqual(err, errCallback);
-        }),
-        () => {
+      return awaitGlobalException((err) => {
+        assert.strictEqual(err, errCallback);
+      })
+        .finally(() => {
           process.removeListener('unhandledRejection', onUnhandledRejection);
           return unhandledRejection && Promise.reject(unhandledRejection);
-        },
-      );
+        });
     });
   });
 
