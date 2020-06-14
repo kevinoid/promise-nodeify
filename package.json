@@ -46,7 +46,7 @@
     "@babel/core": "^7.0.0",
     "@babel/plugin-transform-arrow-functions": "^7.0.0",
     "@babel/plugin-transform-block-scoping": "^7.0.0",
-    "@kevinoid/eslint-config": "^9.0.0",
+    "@kevinoid/eslint-config": "^9.1.0",
     "codecov": "^3.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^7.0.0",
