@@ -96,6 +96,9 @@ function promiseNodeify(promise, callback) {
   return undefined;
 }
 
+// https://github.com/gajus/eslint-plugin-jsdoc/issues/578
+/* eslint-disable jsdoc/no-undefined-types */
+
 /** A version of {@link promiseNodeify} which delegates to the
  * <code>.nodeify</code> method on <code>promise</code>, if present.
  *
@@ -129,7 +132,7 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
  * {@link promiseNodeify}.
  *
  * @template ValueType
- * @this {!Promise<ValueType>}
+ * @this !Promise<ValueType>
  * @param {?function(*, ValueType=)=} callback Node-style callback.
  * @returns {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
