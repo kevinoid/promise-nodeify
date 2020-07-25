@@ -96,9 +96,6 @@ function promiseNodeify(promise, callback) {
   return undefined;
 }
 
-// https://github.com/gajus/eslint-plugin-jsdoc/issues/578
-/* eslint-disable jsdoc/no-undefined-types */
-
 /** A version of {@link promiseNodeify} which delegates to the
  * <code>.nodeify</code> method on <code>promise</code>, if present.
  *
