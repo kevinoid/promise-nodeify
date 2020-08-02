@@ -129,7 +129,7 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
  * {@link promiseNodeify}.
  *
  * @template ValueType
- * @this !Promise<ValueType>
+ * @this {!Promise<ValueType>}
  * @param {?function(*, ValueType=)=} callback Node-style callback.
  * @returns {Promise<ValueType>|undefined} <code>undefined</code> if
  * <code>callback</code> is a function, otherwise a <code>Promise</code>
