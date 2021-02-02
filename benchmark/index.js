@@ -122,13 +122,13 @@ if (NPromise) {
  * @private
  */
 function defineGlobals() {
-  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
+  for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
     global[nodeifyName] = NODEIFY_FUNCTIONS[nodeifyName].nodeify;
-  });
+  }
 
-  Object.keys(PROMISE_TYPES).forEach((promiseName) => {
+  for (const promiseName of Object.keys(PROMISE_TYPES)) {
     global[promiseName] = PROMISE_TYPES[promiseName].Promise;
-  });
+  }
 }
 
 /** Deletes the globals added by {@link defineGlobals}.
@@ -136,22 +136,22 @@ function defineGlobals() {
  * @private
  */
 function deleteGlobals() {
-  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
+  for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
     delete global[nodeifyName];
-  });
+  }
 
-  Object.keys(PROMISE_TYPES).forEach((promiseName) => {
+  for (const promiseName of Object.keys(PROMISE_TYPES)) {
     delete global[promiseName];
-  });
+  }
 }
 
 function defineSuites() {
   const resolvedSuite = new Benchmark.Suite('nodeify resolved');
   const rejectedSuite = new Benchmark.Suite('nodeify rejected');
 
-  Object.keys(NODEIFY_FUNCTIONS).forEach((nodeifyName) => {
+  for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
     const nodeifyFunction = NODEIFY_FUNCTIONS[nodeifyName];
-    Object.keys(PROMISE_TYPES).forEach((promiseName) => {
+    for (const promiseName of Object.keys(PROMISE_TYPES)) {
       const promiseType = PROMISE_TYPES[promiseName];
 
       resolvedSuite.add(
@@ -186,8 +186,8 @@ function defineSuites() {
               ? `promise.nodeify = ${nodeifyName};` : ''}`,
         },
       );
-    });
-  });
+    }
+  }
 
   return [resolvedSuite, rejectedSuite];
 }
@@ -241,7 +241,7 @@ function formatResultsTxt(suite, useColor) {
       'top-mid': '',
       'top-right': '',
     },
-    head: ['ops/sec'].concat(colNames),
+    head: ['ops/sec', ...colNames],
     style: {
       head: useColor ? ['white', 'bold'] : [],
     },
@@ -251,12 +251,12 @@ function formatResultsTxt(suite, useColor) {
       const line = '--------------------'.slice(0, Math.max(name.length, 3));
       return `${line}:`;
     });
-    table.push(['-------'].concat(headMarkers));
+    table.push(['-------', ...headMarkers]);
   }
-  rowNames.forEach((rowName, i) => {
+  for (const [i, rowName] of rowNames.entries()) {
     const rowValues = tableValues.slice(i * numCols, (i + 1) * numCols);
-    table.push([rowName].concat(rowValues));
-  });
+    table.push([rowName, ...rowValues]);
+  }
   return table.toString();
 }
 
@@ -276,7 +276,7 @@ function runSuite(suite, options, cb) {
   let benchmarkTimeout;
   function benchmarkStart() {
     assert(!currentBenchmark, 'concurrent benchmarks not supported');
-    currentBenchmark = this;
+    currentBenchmark = this;  // eslint-disable-line unicorn/no-this-assignment
     process.once('uncaughtException', onBenchmarkError);
     benchmarkTimeout = setTimeout(onBenchmarkTimeout, 10000);
   }
@@ -287,16 +287,16 @@ function runSuite(suite, options, cb) {
     currentBenchmark = undefined;
   }
   /* eslint-enable unicorn/consistent-function-scoping */
-  suite.forEach((bench) => {
+  for (const bench of suite) {
     bench.on('start', benchmarkStart);
     bench.on('complete', benchmarkComplete);
-  });
+  }
 
   function done(...args) {
-    suite.forEach((bench) => {
+    for (const bench of suite) {
       bench.off('start', benchmarkStart);
       bench.off('complete', benchmarkComplete);
-    });
+    }
     deleteGlobals();
     return cb.apply(this, args);
   }

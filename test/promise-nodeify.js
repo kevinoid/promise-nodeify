@@ -36,7 +36,7 @@ describe('promiseNodeify', () => {
     });
 
     it('passes Error cause to callback on rejection', (done) => {
-      const cause = new Error();
+      const cause = new Error('test');
       const promise = Promise.reject(cause);
       promiseNodeify(promise, function(err) {
         assert.strictEqual(arguments.length, 1);
@@ -118,7 +118,7 @@ describe('promiseNodeify', () => {
     });
 
     it('returns a Promise which rejects with the same cause', () => {
-      const cause = new Error();
+      const cause = new Error('test');
       const promise = Promise.reject(cause);
       const promise2 = promiseNodeify(promise, null);
       return promise2.then(
