@@ -1,6 +1,7 @@
 /** @module promise-nodeify
  * @copyright Copyright 2016-2018 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
+ * @module promise-nodeify
  */
 
 'use strict';
