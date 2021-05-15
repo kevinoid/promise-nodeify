@@ -7,7 +7,7 @@
 
 const assert = require('assert');
 
-const awaitGlobalException = require('../test-lib/await-global-exception');
+const awaitGlobalException = require('../test-lib/await-global-exception.js');
 const promiseNodeify = require('..');
 
 describe('promiseNodeify', () => {
