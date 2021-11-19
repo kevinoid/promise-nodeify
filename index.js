@@ -11,11 +11,12 @@
  * @private
  */
 const later =
-  typeof process !== 'undefined'
-    // eslint-disable-next-line no-restricted-properties
-    && typeof process.nextTick === 'function' ? process.nextTick
-    : typeof setImmediate === 'function' ? setImmediate
-      : setTimeout;
+  typeof queueMicrotask === 'function' ? queueMicrotask
+    : typeof process !== 'undefined'
+      // eslint-disable-next-line no-restricted-properties
+      && typeof process.nextTick === 'function' ? process.nextTick
+      : typeof setImmediate === 'function' ? setImmediate
+        : setTimeout;
 
 /** Invokes callback and ensures any exceptions thrown are uncaught.
  *
