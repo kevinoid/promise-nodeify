@@ -12,6 +12,7 @@
  */
 const later =
   typeof process !== 'undefined'
+    // eslint-disable-next-line no-restricted-properties
     && typeof process.nextTick === 'function' ? process.nextTick
     : typeof setImmediate === 'function' ? setImmediate
       : setTimeout;
