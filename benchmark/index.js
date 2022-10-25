@@ -350,7 +350,7 @@ module.exports.runSuite = runSuite;
 
 if (require.main === module) {
   // This file was invoked directly.
-  /* eslint-disable no-process-exit */
+  /* eslint-disable no-process-exit,unicorn/no-process-exit */
   const mainOptions = {
     in: process.stdin,
     out: process.stdout,
