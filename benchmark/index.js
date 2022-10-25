@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * @copyright Copyright 2016 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
