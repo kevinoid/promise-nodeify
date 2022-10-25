@@ -51,7 +51,7 @@ const NODEIFY_FUNCTIONS = {
   promiseNodeify: {
     name: 'promiseNodeify',
     isMethod: false,
-    // eslint-disable-next-line node/no-unpublished-require
+    // eslint-disable-next-line n/no-unpublished-require
     nodeify: require('..'),
   },
   thenNodeify: {

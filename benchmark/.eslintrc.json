@@ -9,7 +9,7 @@
 
     // Disable import resolution checking since installing benchmark
     // dependencies for linting is wasteful, particularly on CI.
-    "node/no-missing-require": "off"
+    "n/no-missing-require": "off"
   },
 
   "overrides": [
@@ -19,7 +19,7 @@
         "index.js"
       ],
       "rules": {
-        "node/shebang": "off"
+        "n/shebang": "off"
       }
     }
   ]
