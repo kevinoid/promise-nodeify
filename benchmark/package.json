@@ -21,10 +21,10 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "ansi-colors": "^4.0.0",
     "benchmark": "^2.1.0",
     "bluebird": "^3.3.3",
     "cli-table": "^0.3.1",
-    "colors": "^1.0.0",
     "es-nodeify": "^1.0.0",
     "fast-stats": "0.0.3",
     "microtime": "^2.0.0",

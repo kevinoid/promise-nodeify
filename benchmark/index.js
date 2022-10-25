@@ -17,7 +17,7 @@ const Benchmark = require('benchmark');
 const CliTable = require('cli-table');
 const { Stats } = require('fast-stats');
 const assert = require('assert');
-const colors = require('colors/safe');
+const colors = require('ansi-colors');
 
 /** Nodeify functions to benchmark with human-readable name, indexed by global
  * name.
