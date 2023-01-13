@@ -1,8 +1,8 @@
 promise-nodeify
 ===============
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/kevinoid/promise-nodeify/node.js.yml?branch=main&style=flat&label=build)](https://github.com/kevinoid/promise-nodeify/actions?query=branch%3Amaster)
-[![Coverage](https://img.shields.io/codecov/c/github/kevinoid/promise-nodeify.svg?style=flat)](https://codecov.io/github/kevinoid/promise-nodeify?branch=master)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/kevinoid/promise-nodeify/node.js.yml?branch=main&style=flat&label=build)](https://github.com/kevinoid/promise-nodeify/actions?query=branch%3Amain)
+[![Coverage](https://img.shields.io/codecov/c/github/kevinoid/promise-nodeify.svg?style=flat)](https://codecov.io/github/kevinoid/promise-nodeify?branch=main)
 [![Dependency Status](https://img.shields.io/david/kevinoid/promise-nodeify.svg?style=flat)](https://david-dm.org/kevinoid/promise-nodeify)
 [![Supported Node Version](https://img.shields.io/node/v/promise-nodeify.svg?style=flat)](https://www.npmjs.com/package/promise-nodeify)
 [![Version on NPM](https://img.shields.io/npm/v/promise-nodeify.svg?style=flat)](https://www.npmjs.com/package/promise-nodeify)
