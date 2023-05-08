@@ -5,7 +5,7 @@
 
 'use strict';
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const awaitGlobalException = require('../test-lib/await-global-exception.js');
 const promiseNodeify = require('..');
