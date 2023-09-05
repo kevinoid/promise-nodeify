@@ -8,6 +8,8 @@
 const assert = require('node:assert');
 
 const awaitGlobalException = require('../test-lib/await-global-exception.js');
+// https://github.com/import-js/eslint-plugin-import/issues/2844
+// eslint-disable-next-line import/extensions
 const promiseNodeify = require('..');
 
 describe('promiseNodeify', () => {

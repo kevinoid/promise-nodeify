@@ -51,7 +51,8 @@ const NODEIFY_FUNCTIONS = {
   promiseNodeify: {
     name: 'promiseNodeify',
     isMethod: false,
-    // eslint-disable-next-line n/no-unpublished-require
+    // https://github.com/import-js/eslint-plugin-import/issues/2844
+    // eslint-disable-next-line import/extensions,n/no-unpublished-require
     nodeify: require('..'),
   },
   thenNodeify: {
