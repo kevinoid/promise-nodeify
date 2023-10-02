@@ -5,13 +5,13 @@
 
 'use strict';
 
-const babel = require('gulp-babel');
 const gulp = require('gulp');
-const pump = require('pump');
+const babel = require('gulp-babel');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const umd = require('gulp-umd');
+const pump = require('pump');
 
 const DIST_DIR = 'dist';
 

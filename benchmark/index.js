@@ -13,11 +13,12 @@
 // native-promise-only will overwrite if falsey when required
 const NPromise = typeof Promise !== 'undefined' ? Promise : undefined;
 
+const assert = require('node:assert');
+
+const colors = require('ansi-colors');
 const Benchmark = require('benchmark');
 const CliTable = require('cli-table');
 const { Stats } = require('fast-stats');
-const assert = require('node:assert');
-const colors = require('ansi-colors');
 
 /** Nodeify functions to benchmark with human-readable name, indexed by global
  * name.
