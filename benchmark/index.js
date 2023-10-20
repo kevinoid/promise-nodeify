@@ -287,7 +287,6 @@ function runSuite(suite, options, cb) {
     process.removeListener('uncaughtException', onBenchmarkError);
     currentBenchmark = undefined;
   }
-  /* eslint-enable unicorn/consistent-function-scoping */
   for (const bench of suite) {
     bench.on('start', benchmarkStart);
     bench.on('complete', benchmarkComplete);
