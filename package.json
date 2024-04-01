@@ -65,7 +65,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-regexp": "^2.0.0",
     "eslint-plugin-unicorn": "^48.0.1",
-    "gulp": "^4.0.0",
+    "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
