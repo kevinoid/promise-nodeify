@@ -64,7 +64,7 @@ describe('promiseNodeify', () => {
         assert.strictEqual(arguments.length, 1);
         assert(err instanceof Error);
         assert.strictEqual(err.message, String(cause));
-        assert(hasOwnProperty.call(err, 'cause'));
+        assert(Object.hasOwn(err, 'cause'));
         assert.strictEqual(err.cause, cause);
         done();
       });
