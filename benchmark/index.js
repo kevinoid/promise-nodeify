@@ -182,7 +182,7 @@ function defineSuites() {
           // Expose deferred on benchmark so we can recover from errors.
           // See https://github.com/bestiejs/benchmark.js/issues/123
           setup: `${'this.benchmark._original.deferred = deferred;\n'
-            + 'var promise = '}${promiseName}.reject(new Error());\n${
+          + 'var promise = '}${promiseName}.reject(new Error());\n${
             nodeifyFunction.isMethod
               ? `promise.nodeify = ${nodeifyName};` : ''}`,
         },
