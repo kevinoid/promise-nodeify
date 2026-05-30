@@ -6,7 +6,7 @@
 'use strict';
 
 // For convenience, it's easier to require modules inline in this file.
-/* eslint-disable global-require */
+/* eslint-disable n/global-require */
 
 // Save native promise (if any) early since:
 // es-native will overwrite native promise when required
@@ -351,7 +351,7 @@ module.exports.runSuite = runSuite;
 
 if (require.main === module) {
   // This file was invoked directly.
-  /* eslint-disable no-process-exit,unicorn/no-process-exit */
+  /* eslint-disable n/no-process-exit,unicorn/no-process-exit */
   const mainOptions = {
     in: process.stdin,
     out: process.stdout,
