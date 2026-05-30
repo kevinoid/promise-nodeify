@@ -26,7 +26,7 @@ describe('promiseNodeify', () => {
     });
 
     it('passes undefined value to callback on resolution', (done) => {
-      let value;
+      const value = undefined;
       const promise = Promise.resolve(value);
       promiseNodeify(promise, (err, result) => {
         // Note:  arguments.length is unspecified
