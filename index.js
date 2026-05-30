@@ -102,7 +102,7 @@ function promiseNodeify(promise, callback) {
 /** A version of {@link promiseNodeify} which delegates to the
  * <code>.nodeify</code> method on <code>promise</code>, if present.
  *
- * This may be more performant than {@see promiseNodeify} and have additional
+ * This may be more performant than {@link promiseNodeify} and have additional
  * implementation-specific features, but the behavior may differ from
  * <code>promiseNodeify</code> and between Promise implementations.
  *
