@@ -29,3 +29,8 @@ updates:
   # Ignore major updates to eslint, due to @kevinoid/eslint-config peerDep
   - dependency-name: "eslint"
     update-types: ["version-update:semver-major"]
+  groups:
+    # Group @babel package updates, which must be done in tandem
+    babel:
+      patterns:
+      - "@babel/*"
