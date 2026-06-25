@@ -53,7 +53,7 @@
     "version-deps": "npm install conventional-changelog-cli david depcheck git-branch-is hub-ci-status"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^8.0.1",
     "@babel/plugin-transform-arrow-functions": "^7.0.0",
     "@babel/plugin-transform-block-scoping": "^7.0.0",
     "@kevinoid/eslint-config": "^34.0.0",
