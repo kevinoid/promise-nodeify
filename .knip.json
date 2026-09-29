@@ -1,0 +1,32 @@
+{
+  "ignoreBinaries": [
+    // Ignore version binaries.  Install by running version-deps script.
+    "conventional-changelog",
+    "depcheck",
+    "david",
+    "git-branch-is",
+    "hub-ci-status"
+  ],
+  "treatConfigHintsAsErrors": true,
+  "treatTagHintsAsErrors": true,
+  "workspaces": {
+    ".": {
+      "entry": [
+        "gulpfile.js"
+      ],
+      "project": [
+        "**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}!",
+
+        // Exclude files built for distribution
+        "!dist/**/*.js"
+      ]
+    },
+    "benchmark": {
+      "ignoreDependencies": [
+        // microtime is (optionally) used by benchmark
+        // https://github.com/bestiejs/benchmark.js/blob/main/README.md#installation
+        "microtime"
+      ]
+    }
+  }
+}
