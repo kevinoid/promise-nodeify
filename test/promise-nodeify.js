@@ -77,13 +77,12 @@ describe('promiseNodeify', () => {
       assert.strictEqual(retVal, undefined);
     });
 
-    it('ignores callback return value', () => {
+    it('ignores callback return value', async () => {
       const value = {};
       const promise = Promise.resolve(value);
       promiseNodeify(promise, () => true);
-      return promise.then((result) => {
-        assert.strictEqual(result, value);
-      });
+      const result = await promise;
+      assert.strictEqual(result, value);
     });
 
     it('callback exception causes uncaughtException', () => {
@@ -110,25 +109,21 @@ describe('promiseNodeify', () => {
   });
 
   describe('when called with a non-function', () => {
-    it('returns a Promise which resolves with the same value', () => {
+    it('returns a Promise which resolves with the same value', async () => {
       const value = {};
       const promise = Promise.resolve(value);
-      const promise2 = promiseNodeify(promise, null);
-      return promise2.then((result) => {
-        assert.strictEqual(result, value);
-      });
+      const result = await promiseNodeify(promise, null);
+      assert.strictEqual(result, value);
     });
 
-    it('returns a Promise which rejects with the same cause', () => {
+    it('returns a Promise which rejects with the same cause', async () => {
       const cause = new Error('test');
       const promise = Promise.reject(cause);
-      const promise2 = promiseNodeify(promise, null);
-      return promise2.then(
-        () => {
-          assert(false, 'Promise should be rejected');
-        },
+      await assert.rejects(
+        promiseNodeify(promise, null),
         (err) => {
           assert.strictEqual(err, cause);
+          return true;
         },
       );
     });
@@ -196,14 +191,14 @@ describe('promiseNodeify', () => {
       assert.strictEqual(retVal, undefined);
     });
 
-    it('when not given a function, returns a Promise', () => {
+    it('when not given a function, returns a Promise', async () => {
       const value = {};
       const promise = Promise.resolve(value);
       promise.nodeify = promiseNodeify.nodeifyThis;
       const promise2 = promise.nodeify(null);
-      return promise2.then((result) => {
-        assert.strictEqual(result, value);
-      });
+      assert.strictEqual(typeof promise2.then, 'function');
+      const result = await promise2;
+      assert.strictEqual(result, value);
     });
   });
 });
