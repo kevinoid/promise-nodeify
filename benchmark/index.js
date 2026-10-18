@@ -139,11 +139,11 @@ function defineGlobals() {
  */
 function deleteGlobals() {
   for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
-    delete global[nodeifyName];
+    delete globalThis[nodeifyName];
   }
 
   for (const promiseName of Object.keys(PROMISE_TYPES)) {
-    delete global[promiseName];
+    delete globalThis[promiseName];
   }
 }
 
