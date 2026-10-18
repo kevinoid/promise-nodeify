@@ -50,7 +50,7 @@ function doCallback(callback, reason, value) {
  * {@link
  * https://github.com/cujojs/when/blob/master/docs/api.md#nodebindcallback
  * when.js <code>node.bindCallback</code>},
- * or {@link http://bluebirdjs.com/docs/api/ascallback.html bluebird
+ * or {@link https://bluebirdjs.com/docs/api/ascallback.html bluebird
  * <code>Promise.prototype.nodeify</code> (now
  * <code>Promise.prototype.asCallback</code>)} (without options).
  *
