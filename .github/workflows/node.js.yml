@@ -57,6 +57,8 @@ jobs:
         npm config set ignore-scripts=true
     - name: Install dependencies
       run: npm install --strict-peer-deps
+    - name: Install benchmark dependencies
+      run: cd benchmark && npm install --strict-peer-deps
     - name: Lint
       run: npm run lint
     - name: Run tests
