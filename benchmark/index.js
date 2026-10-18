@@ -215,8 +215,8 @@ function formatResultsTxt(suite, useColor) {
     const lowerQuartile = stats.percentile(25);
     const upperQuartile = stats.percentile(75);
 
-    const tableColors = suite.map((bench) => (bench.error ? colors.red
-      : bench.hz < lowerQuartile ? colors.red
+    const tableColors = suite.map((bench) => (
+      bench.error || bench.hz < lowerQuartile ? colors.red
         : bench.hz > upperQuartile ? colors.green
           : colors.yellow));
     tableValues = tableValues.map((value, i) => tableColors[i](value));
