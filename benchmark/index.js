@@ -123,12 +123,13 @@ if (NPromise) {
  * @private
  */
 function defineGlobals() {
-  for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
-    global[nodeifyName] = NODEIFY_FUNCTIONS[nodeifyName].nodeify;
+  for (const [nodeifyName, nodeifyFunction]
+    of Object.entries(NODEIFY_FUNCTIONS)) {
+    globalThis[nodeifyName] = nodeifyFunction.nodeify;
   }
 
-  for (const promiseName of Object.keys(PROMISE_TYPES)) {
-    global[promiseName] = PROMISE_TYPES[promiseName].Promise;
+  for (const [promiseName, nodeifyFunction] of Object.entries(PROMISE_TYPES)) {
+    globalThis[promiseName] = nodeifyFunction.Promise;
   }
 }
 
@@ -150,11 +151,9 @@ function defineSuites() {
   const resolvedSuite = new Benchmark.Suite('nodeify resolved');
   const rejectedSuite = new Benchmark.Suite('nodeify rejected');
 
-  for (const nodeifyName of Object.keys(NODEIFY_FUNCTIONS)) {
-    const nodeifyFunction = NODEIFY_FUNCTIONS[nodeifyName];
-    for (const promiseName of Object.keys(PROMISE_TYPES)) {
-      const promiseType = PROMISE_TYPES[promiseName];
-
+  for (const [nodeifyName, nodeifyFunction]
+    of Object.entries(NODEIFY_FUNCTIONS)) {
+    for (const [promiseName, promiseType] of Object.entries(PROMISE_TYPES)) {
       resolvedSuite.add(
         `${nodeifyFunction.name} with ${promiseType.name}`,
         {
@@ -194,10 +193,10 @@ function defineSuites() {
 }
 
 function formatResultsTxt(suite, useColor) {
-  const rowNames = Object.keys(NODEIFY_FUNCTIONS)
-    .map((funcName) => NODEIFY_FUNCTIONS[funcName].name);
-  const colNames = Object.keys(PROMISE_TYPES)
-    .map((promiseName) => PROMISE_TYPES[promiseName].name);
+  const rowNames = Object.values(NODEIFY_FUNCTIONS)
+    .map((nodeifyFunction) => nodeifyFunction.name);
+  const colNames = Object.values(PROMISE_TYPES)
+    .map((nodeifyFunction) => nodeifyFunction.name);
 
   const numRows = rowNames.length;
   const numCols = colNames.length;
