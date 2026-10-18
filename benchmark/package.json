@@ -27,7 +27,7 @@
     "cli-table": "^0.3.1",
     "es-nodeify": "^1.0.0",
     "fast-stats": "0.0.7",
-    "microtime": "^2.0.0",
+    "microtime": "^3.1.1",
     "native-promise-only": "^0.8.1",
     "nodeify": "^1.0.0",
     "pinkie-promise": "^2.0.0",
