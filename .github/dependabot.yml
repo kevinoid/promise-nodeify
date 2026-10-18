@@ -20,7 +20,9 @@ updates:
   cooldown:
     default-days: 7
 - package-ecosystem: "npm"
-  directory: "/"
+  directories:
+  - "/"
+  - "/benchmark/"
   schedule:
     interval: "daily"
   cooldown:
