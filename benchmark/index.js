@@ -287,16 +287,20 @@ function runSuite(suite, options, cb) {
     process.removeListener('uncaughtException', onBenchmarkError);
     currentBenchmark = undefined;
   }
-  for (const bench of suite) {
+  // Benchmark.Suite does not have [Symbol.iterator]()
+  // eslint-disable-next-line unicorn/no-for-each
+  suite.forEach((bench) => {
     bench.on('start', benchmarkStart);
     bench.on('complete', benchmarkComplete);
-  }
+  });
 
   function done(...args) {
-    for (const bench of suite) {
+    // Benchmark.Suite does not have [Symbol.iterator]()
+    // eslint-disable-next-line unicorn/no-for-each
+    suite.forEach((bench) => {
       bench.off('start', benchmarkStart);
       bench.off('complete', benchmarkComplete);
-    }
+    });
     deleteGlobals();
     // eslint-disable-next-line unicorn/no-this-outside-of-class
     return cb.apply(this, args);
