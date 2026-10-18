@@ -34,7 +34,7 @@
     "promise": "^8.0.0",
     "q": "^1.4.1",
     "rsvp": "^4.0.0",
-    "unthenify": "^1.0.1",
+    "unthenify": "^2.0.0",
     "when": "^3.7.7"
   },
   "engines": {
