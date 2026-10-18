@@ -76,16 +76,14 @@ function promiseNodeify(promise, callback) {
     // callback is unlikely to recognize or expect a falsey error.
     // (we also rely on truthyness for arguments.length in doCallback)
     // Convert it to something truthy
-    let truthyReason = reason;
-    if (!truthyReason) {
-      // Note:  unthenify converts falsey rejections to TypeError:
-      // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
-      // We use bluebird convention for Error, message, and .cause property
-      truthyReason = new Error(String(reason));
-      truthyReason.cause = reason;
-    }
-
-    doCallback(callback, truthyReason);
+    //
+    // Note:  unthenify converts falsey rejections to TypeError:
+    // https://github.com/blakeembrey/unthenify/blob/v1.0.0/src/index.ts#L32
+    doCallback(
+      callback,
+      // Use bluebird convention for Error, message, and cause
+      reason || new Error(String(reason), { cause: reason }),
+    );
   }
 
   function onResolved(value) {
