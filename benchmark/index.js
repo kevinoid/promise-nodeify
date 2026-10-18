@@ -78,8 +78,7 @@ const NODEIFY_FUNCTIONS = {
   },
 };
 
-/** Promise types to benchmark with human-readable name, indexed by global name
- */
+/** Promise types to benchmark with human-readable name, indexed by global name */
 const PROMISE_TYPES = {
   BBPromise: {
     name: 'bluebird',
