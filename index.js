@@ -13,7 +13,8 @@
 const later =
   typeof queueMicrotask === 'function' ? queueMicrotask
     : typeof process !== 'undefined'
-      // eslint-disable-next-line no-restricted-properties
+      // eslint-disable-next-line @stylistic/max-len
+      // eslint-disable-next-line no-restricted-properties,unicorn/prefer-queue-microtask
       && typeof process.nextTick === 'function' ? process.nextTick
       : typeof setImmediate === 'function' ? setImmediate
         : setTimeout;
@@ -92,7 +93,7 @@ function promiseNodeify(promise, callback) {
     doCallback(callback, null, value);
   }
 
-  // eslint-disable-next-line promise/catch-or-return
+  // eslint-disable-next-line promise/catch-or-return,unicorn/prefer-await
   promise.then(onResolved, onRejected);
   return undefined;
 }
@@ -138,6 +139,7 @@ promiseNodeify.delegated = function nodeifyDelegated(promise, callback) {
  * but is not guaranteed to remain so).
  */
 promiseNodeify.nodeifyThis = function nodeifyThis(callback) {
+  // eslint-disable-next-line unicorn/no-this-outside-of-class
   return promiseNodeify(this, callback);
 };
 

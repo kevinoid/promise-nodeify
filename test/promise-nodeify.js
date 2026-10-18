@@ -48,6 +48,7 @@ describe('promiseNodeify', () => {
     });
 
     it('passes truthy cause to callback on rejection', (done) => {
+      // eslint-disable-next-line unicorn/consistent-boolean-name
       const cause = true;
       const promise = Promise.reject(cause);
       promiseNodeify(promise, function(err) {
@@ -101,6 +102,7 @@ describe('promiseNodeify', () => {
       return awaitGlobalException((err) => {
         assert.strictEqual(err, errCallback);
       })
+        // eslint-disable-next-line unicorn/prefer-await
         .finally(() => {
           process.removeListener('unhandledRejection', onUnhandledRejection);
           return unhandledRejection && Promise.reject(unhandledRejection);

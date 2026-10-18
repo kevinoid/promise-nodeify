@@ -37,6 +37,7 @@ const NODEIFY_FUNCTIONS = {
       Promise = function() {};
       try {
         require('es-nodeify');
+        // eslint-disable-next-line unicorn/no-nonstandard-builtin-properties
         return Promise.prototype.nodeify;
       } finally {
         // eslint-disable-next-line no-global-assign
@@ -275,6 +276,7 @@ function runSuite(suite, options, cb) {
   let benchmarkTimeout;
   function benchmarkStart() {
     assert(!currentBenchmark, 'concurrent benchmarks not supported');
+    // eslint-disable-next-line unicorn/no-this-outside-of-class
     currentBenchmark = this;  // eslint-disable-line unicorn/no-this-assignment
     process.once('uncaughtException', onBenchmarkError);
     benchmarkTimeout = setTimeout(onBenchmarkTimeout, 10000);
@@ -296,6 +298,7 @@ function runSuite(suite, options, cb) {
       bench.off('complete', benchmarkComplete);
     }
     deleteGlobals();
+    // eslint-disable-next-line unicorn/no-this-outside-of-class
     return cb.apply(this, args);
   }
 
@@ -311,6 +314,7 @@ function runSuite(suite, options, cb) {
       );
     })
     .on('complete', function() {
+      // eslint-disable-next-line unicorn/no-this-outside-of-class
       done(undefined, this);
     });
 
