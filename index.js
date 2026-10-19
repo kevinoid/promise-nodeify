@@ -13,8 +13,8 @@
 const later =
   typeof queueMicrotask === 'function' ? queueMicrotask
     : typeof process !== 'undefined'
-      // eslint-disable-next-line @stylistic/max-len
-      // eslint-disable-next-line no-restricted-properties,unicorn/prefer-queue-microtask
+
+      // eslint-disable-next-line unicorn/prefer-queue-microtask
       && typeof process.nextTick === 'function' ? process.nextTick
       : typeof setImmediate === 'function' ? setImmediate
         : setTimeout;
